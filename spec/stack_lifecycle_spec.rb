@@ -21,4 +21,11 @@ RSpec.describe StackLifecycle do
     expect(regions.include?("ap-south-1")).to be true
   end
 
+  it 'determines any environments and a supported region and action for the environment' do
+    environments = stack.metadata["environments"]
+    expect(environments["dev"]).not_to be nil
+    expect(environments["dev"]["region"]).to eql('ap-south-1')
+    expect(environments["dev"]["action"]).to eql('recreate')
+  end
+
 end
