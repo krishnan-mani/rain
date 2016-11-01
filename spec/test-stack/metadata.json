@@ -1,3 +1,13 @@
 {
-  "name": "test-stack"
+  "name": "test-stack",
+  "regions": [
+    "us-east-1",
+    "ap-south-1"
+  ],
+  "environments": {
+    "dev": {
+      "region": "ap-south-1",
+      "action": "recreate"
+    }
+  }
 }
