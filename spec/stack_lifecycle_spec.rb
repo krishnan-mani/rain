@@ -28,4 +28,8 @@ RSpec.describe StackLifecycle do
     expect(environments["dev"]["action"]).to eql('recreate')
   end
 
+  it 'constructs a name for the realized stack based on the environment and region' do
+    expect(stack.name("dev")).to eql('test-stack-dev-ap-south-1')
+  end
+
 end
