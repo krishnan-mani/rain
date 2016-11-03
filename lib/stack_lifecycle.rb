@@ -22,6 +22,10 @@ class StackLifecycle
     "#{base_name}#{SEPARATOR}#{environment_name}#{SEPARATOR}#{env_region}"
   end
 
+  def stack_fully_qualified_name
+    name(@environment)
+  end
+
   def metadata
     @metadata.dup
   end
@@ -32,10 +36,6 @@ class StackLifecycle
 
   def s3LocationAndRegion
     copyToS3? ? {bucket: @options[:s3Location], region: @options[:s3Region]} : nil
-  end
-
-  def exists?
-    false
   end
 
   def prepare!
@@ -53,7 +53,7 @@ class StackLifecycle
 
       template_path = File.join(@path, 'template.json')
       File.open(template_path, 'rb') do |file|
-        s3.put_object(bucket: s3LocationAndRegion[:bucket], key: "#{name(@environment)}/template.json", body: file)
+        s3.put_object(bucket: s3LocationAndRegion[:bucket], key: "#{stack_fully_qualified_name}/template.json", body: file)
       end
     end
   end
