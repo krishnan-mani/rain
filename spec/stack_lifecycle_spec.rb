@@ -84,17 +84,17 @@ RSpec.describe 'it creates stack' do
 end
 
 def cleanup(client, bucket)
-  client.delete_objects({
-                            bucket: bucket,
-                            delete: {
-                                objects: [
-                                    {
-                                        key: "test-stack/dev/ap-south-1/template.json", # required
-                                    }
-                                ]
-                            }
-                        })
   begin
+    client.delete_objects({
+                              bucket: bucket,
+                              delete: {
+                                  objects: [
+                                      {
+                                          key: "test-stack/dev/ap-south-1/template.json", # required
+                                      }
+                                  ]
+                              }
+                          })
     client.delete_bucket(bucket: bucket)
   rescue Aws::S3::Errors::ServiceError
   end
