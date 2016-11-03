@@ -3,6 +3,7 @@
 - Assemble parameters from multiple sources
 - Persist and retrieve confidential information from a trust store
 - Acknowledge the capabilities required by the template to create the stack (CAPABILITY_IAM, CAPABILITY_NAMED_IAM)
+- Copy template to S3 location when required
 - [TBD] dependencies between stacks, environments, and templates
 - [TBD] multi-account
 - [TBD] multi-region
