@@ -51,4 +51,12 @@ RSpec.describe StackLifecycle do
     expect(first_key).to eql prefix
   end
 
+  it 'creates the stack' do
+    stack.create!
+    cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
+    stack_resource = Aws::CloudFormation::Resource.new(client: cf)
+    stack = stack_resource.stack('test-stack-dev-ap-south-1')
+    expect(stack.stack_status).to match /CREATE/
+  end
+
 end

@@ -30,6 +30,10 @@ class StackLifecycle
     metadata["name"]
   end
 
+  def region
+    metadata["environments"][@environment]["region"]
+  end
+
   def metadata
     @metadata.dup
   end
@@ -55,13 +59,28 @@ class StackLifecycle
         s3.create_bucket({bucket: bucket})
       end
 
+      key = "#{stack_name}/#{@environment}/#{metadata["environments"][@environment]["region"]}/template.json"
       template_path = File.join(@path, 'template.json')
       File.open(template_path, 'rb') do |file|
-        s3.put_object(bucket: s3LocationAndRegion[:bucket],
-                      key: "#{stack_name}/#{@environment}/#{metadata["environments"][@environment]["region"]}/template.json", body: file
+        s3.put_object(
+            bucket: s3LocationAndRegion[:bucket],
+            key: key,
+            body: file
         )
       end
+      "https://s3.amazonaws.com/#{bucket}/#{key}"
     end
+  end
+
+  def create!
+    cf = Aws::CloudFormation::Client.new(region: region)
+    stack_resource = Aws::CloudFormation::Resource.new(client: cf)
+    template_url = prepare!
+    stack = stack_resource.create_stack({
+                                            stack_name: stack_fully_qualified_name,
+                                            template_url: template_url
+                                        })
+    stack.wait_until_exists
   end
 
   private
