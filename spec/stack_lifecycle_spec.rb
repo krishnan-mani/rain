@@ -94,5 +94,8 @@ def cleanup(client, bucket)
                                 ]
                             }
                         })
-  client.delete_bucket(bucket: bucket)
+  begin
+    client.delete_bucket(bucket: bucket)
+  rescue Aws::S3::Errors::ServiceError
+  end
 end
