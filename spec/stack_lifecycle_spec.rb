@@ -1,14 +1,13 @@
 require_relative '../lib/stack_lifecycle'
 
+base_path = File.dirname(__FILE__)
+stack_artifacts_path = File.join(base_path, 'test-stack')
+artifacts_bucket = "artifacts-workshop-213"
+artifacts_region = 'ap-south-1'
+options = {"s3Location": artifacts_bucket, "s3Region": artifacts_region}
+stack = StackLifecycle.new(stack_artifacts_path, 'dev', options)
 
 RSpec.describe StackLifecycle do
-
-  base_path = File.dirname(__FILE__)
-  stack_artifacts_path = File.join(base_path, 'test-stack')
-  artifacts_bucket = "artifacts-workshop-213"
-  artifacts_region = 'ap-south-1'
-  options = {"s3Location": artifacts_bucket, "s3Region": artifacts_region}
-  stack = StackLifecycle.new(stack_artifacts_path, 'dev', options)
 
   it 'determines whether a stack exists by the corresponding name in a given region' do
     :pending
@@ -36,11 +35,37 @@ RSpec.describe StackLifecycle do
     expect(stack.name("dev")).to eql('test-stack-dev-ap-south-1')
   end
 
+end
+
+RSpec.describe 'it copies stack artifacts' do
+
+  def cleanup(client, bucket)
+    client.delete_objects({
+                              bucket: bucket,
+                              delete: {
+                                  objects: [
+                                      {
+                                          key: "test-stack/dev/ap-south-1/template.json", # required
+                                      }
+                                  ]
+                              }
+                          })
+    client.delete_bucket(bucket: bucket)
+  end
+
+  s3 = Aws::S3::Client.new(region: artifacts_region)
+  before(:each) do
+    cleanup(s3, artifacts_bucket)
+  end
+
+  after(:each) do
+    cleanup(s3, artifacts_bucket)
+  end
+
   it 'copies the stack to a location in S3' do
     expect(stack.metadata["copyToS3"]).to be true
     stack.prepare!
 
-    s3 = Aws::S3::Client.new(region: artifacts_region)
     prefix = "test-stack/dev/ap-south-1/template.json"
     response = s3.list_objects({
                                    bucket: artifacts_bucket,
@@ -50,13 +75,22 @@ RSpec.describe StackLifecycle do
     first_key = response.contents[0].key
     expect(first_key).to eql prefix
   end
+end
+
+RSpec.describe 'it creates stack' do
+
+  cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
+  stack_name = 'test-stack-dev-ap-south-1'
+
+  after(:each) do
+    cf.delete_stack(stack_name: stack_name)
+  end
 
   it 'creates the stack' do
     stack.create!
-    cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
     stack_resource = Aws::CloudFormation::Resource.new(client: cf)
-    stack = stack_resource.stack('test-stack-dev-ap-south-1')
-    expect(stack.stack_status).to match /CREATE/
+    created_stack = stack_resource.stack(stack_name)
+    expect(created_stack.stack_status).to match /CREATE/
   end
 
 end
