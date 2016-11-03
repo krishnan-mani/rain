@@ -26,6 +26,10 @@ class StackLifecycle
     name(@environment)
   end
 
+  def stack_name
+    metadata["name"]
+  end
+
   def metadata
     @metadata.dup
   end
@@ -53,7 +57,9 @@ class StackLifecycle
 
       template_path = File.join(@path, 'template.json')
       File.open(template_path, 'rb') do |file|
-        s3.put_object(bucket: s3LocationAndRegion[:bucket], key: "#{stack_fully_qualified_name}/template.json", body: file)
+        s3.put_object(bucket: s3LocationAndRegion[:bucket],
+                      key: "#{stack_name}/#{@environment}/#{metadata["environments"][@environment]["region"]}/template.json", body: file
+        )
       end
     end
   end

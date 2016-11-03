@@ -41,14 +41,14 @@ RSpec.describe StackLifecycle do
     stack.prepare!
 
     s3 = Aws::S3::Client.new(region: artifacts_region)
-    prefix = "test-stack-dev-ap-south-1/template.json"
+    prefix = "test-stack/dev/ap-south-1/template.json"
     response = s3.list_objects({
                                    bucket: artifacts_bucket,
                                    prefix: prefix
                                })
 
     first_key = response.contents[0].key
-    expect(first_key).to eql('test-stack-dev-ap-south-1/template.json')
+    expect(first_key).to eql prefix
   end
 
 end
