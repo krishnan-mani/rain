@@ -39,19 +39,6 @@ end
 
 RSpec.describe 'it copies stack artifacts' do
 
-  def cleanup(client, bucket)
-    client.delete_objects({
-                              bucket: bucket,
-                              delete: {
-                                  objects: [
-                                      {
-                                          key: "test-stack/dev/ap-south-1/template.json", # required
-                                      }
-                                  ]
-                              }
-                          })
-    client.delete_bucket(bucket: bucket)
-  end
 
   s3 = Aws::S3::Client.new(region: artifacts_region)
   before(:each) do
@@ -84,6 +71,7 @@ RSpec.describe 'it creates stack' do
 
   after(:each) do
     cf.delete_stack(stack_name: stack_name)
+    cleanup(Aws::S3::Client.new(region: artifacts_region), artifacts_bucket)
   end
 
   it 'creates the stack' do
@@ -93,4 +81,18 @@ RSpec.describe 'it creates stack' do
     expect(created_stack.stack_status).to match /CREATE/
   end
 
+end
+
+def cleanup(client, bucket)
+  client.delete_objects({
+                            bucket: bucket,
+                            delete: {
+                                objects: [
+                                    {
+                                        key: "test-stack/dev/ap-south-1/template.json", # required
+                                    }
+                                ]
+                            }
+                        })
+  client.delete_bucket(bucket: bucket)
 end
