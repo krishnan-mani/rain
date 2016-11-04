@@ -2,12 +2,21 @@ require_relative '../lib/stack_lifecycle'
 
 base_path = File.dirname(__FILE__)
 stack_artifacts_path = File.join(base_path, 'test-stack')
-artifacts_bucket = "artifacts-workshop-213"
 artifacts_region = 'ap-south-1'
-options = {"s3Location": artifacts_bucket, "s3Region": artifacts_region}
-stack = StackLifecycle.new(stack_artifacts_path, 'dev', options)
+
+
+require 'securerandom'
+
+def get_artifacts_bucket
+  artifacts_bucket = "artifacts-workshop"
+  "#{artifacts_bucket}-#{SecureRandom.random_number(10)}"
+end
 
 RSpec.describe StackLifecycle do
+
+  my_bucket = get_artifacts_bucket
+  options = {"s3Location": my_bucket, "s3Region": artifacts_region}
+  stack = StackLifecycle.new(stack_artifacts_path, 'dev', options)
 
   it 'determines whether a stack exists by the corresponding name in a given region' do
     :pending
@@ -39,14 +48,17 @@ end
 
 RSpec.describe 'it copies stack artifacts' do
 
+  my_bucket = get_artifacts_bucket
+  options = {"s3Location": my_bucket, "s3Region": artifacts_region}
+  stack = StackLifecycle.new(stack_artifacts_path, 'dev', options)
 
   s3 = Aws::S3::Client.new(region: artifacts_region)
   before(:each) do
-    cleanup(s3, artifacts_bucket)
+    cleanup(s3, my_bucket)
   end
 
   after(:each) do
-    cleanup(s3, artifacts_bucket)
+    cleanup(s3, my_bucket)
   end
 
   it 'copies the stack to a location in S3' do
@@ -55,7 +67,7 @@ RSpec.describe 'it copies stack artifacts' do
 
     prefix = "test-stack/dev/ap-south-1/template.json"
     response = s3.list_objects({
-                                   bucket: artifacts_bucket,
+                                   bucket: my_bucket,
                                    prefix: prefix
                                })
 
@@ -66,12 +78,16 @@ end
 
 RSpec.describe 'it creates stack' do
 
+  my_bucket = get_artifacts_bucket
+  options = {"s3Location": my_bucket, "s3Region": artifacts_region}
+  stack = StackLifecycle.new(stack_artifacts_path, 'dev', options)
+
   cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
   stack_name = 'test-stack-dev-ap-south-1'
 
   after(:each) do
     cf.delete_stack(stack_name: stack_name)
-    cleanup(Aws::S3::Client.new(region: artifacts_region), artifacts_bucket)
+    cleanup(Aws::S3::Client.new(region: artifacts_region), my_bucket)
   end
 
   it 'creates the stack' do
