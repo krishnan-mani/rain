@@ -55,7 +55,9 @@ class StackLifecycle
         s3.head_bucket({
                            bucket: bucket
                        })
-      rescue Aws::S3::Errors::ServiceError
+      rescue Aws::S3::Errors::ServiceError => ex
+        p "Error involving S3 bucket: #{bucket}"
+        p "Error: #{ex}"
         s3.create_bucket({bucket: bucket})
       end
 
