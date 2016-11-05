@@ -7,12 +7,17 @@ base_path = File.dirname(__FILE__)
 stack_artifacts_path = File.join(base_path, 'test-stack-create')
 stack = StackLifecycle.new(stack_artifacts_path, 'dev')
 
+cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
+stack_resource = Aws::CloudFormation::Resource.new(client: cf)
+
 RSpec.describe StackLifecycle do
+
+  before(:each) do
+    cf.delete_stack({stack_name: 'test-stack-create-dev-ap-south-1'})
+  end
 
   it 'implements the stack create action when there is no stack', focus: true do
     stack.process!
-    cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
-    stack_resource = Aws::CloudFormation::Resource.new(client: cf)
     created_stack = stack_resource.stack('test-stack-create-dev-ap-south-1')
     expect(created_stack.stack_status).to match /CREATE/
   end

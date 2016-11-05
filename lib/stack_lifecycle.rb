@@ -1,6 +1,9 @@
 require 'aws-sdk'
 
 
+require_relative 'rain_errors'
+
+
 class StackLifecycle
 
   attr_reader :path
@@ -51,7 +54,16 @@ class StackLifecycle
     File.open(template_path, 'rb').read
   end
 
+  def exists?
+    client = Aws::CloudFormation::Client.new(region: region)
+    stack_resource = Aws::CloudFormation::Resource.new(client: client)
+    stack = stack_resource.stack(stack_fully_qualified_name)
+    stack.exists?
+  end
+
   def process!
+    raise RainErrors::StackAlreadyExistsError, "Stack exists: #{stack_fully_qualified_name}" if exists?
+
     client = Aws::CloudFormation::Client.new(region: region)
     client.create_stack({
                             stack_name: stack_fully_qualified_name,
