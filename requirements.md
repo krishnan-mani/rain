@@ -1,9 +1,21 @@
 - Support the lifecycle of individual and related CloudFormation stacks by environment
-- Support workflows including create, re-create, update, and create-change-set
+- For any specified environments, act on the stacks with the desired action
+- Currently for each environment, only one region can be specified
+- For any specified contexts, act on each context
+- Support workflows with actions including create, recreate, update-only, and create-change-set
+
+  - create: Test whether the stack exists. If not, create it
+  - recreate: If the stack exists in any state, delete it and create again. If it does not exist, create it. 
+  - update-only: Only update the stack (if it is in a good state)
+  - create-change-set: Only create a change-set for the stack (when it is in a good state).   
+  - Report an error if the stack is not in a good state when an action is attempted or completed.
+  - If changes are in progress when an action is attempted, retry multiple times with a delay, then timeout and report an error.
+
 - Assemble parameters from multiple sources
 - Persist and retrieve confidential information from a trust store
 - Acknowledge the capabilities required by the template to create the stack (CAPABILITY_IAM, CAPABILITY_NAMED_IAM)
 - Copy template to S3 location when required
+- Support the creation of nested stacks
 - [TBD] dependencies between stacks, environments, and templates
 - [TBD] multi-account
 - [TBD] multi-region
