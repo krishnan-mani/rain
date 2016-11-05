@@ -1,13 +1,13 @@
 {
-  "name": "test-stack",
-  "copyToS3": true,
+  "name": "test-stack-create",
   "regions": [
     "us-east-1",
     "ap-south-1"
   ],
   "environments": {
     "dev": {
-      "region": "ap-south-1"
+      "region": "ap-south-1",
+      "action": "create"
     }
   }
 }

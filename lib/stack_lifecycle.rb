@@ -46,6 +46,19 @@ class StackLifecycle
     copyToS3? ? {bucket: @options[:s3Location], region: @options[:s3Region]} : nil
   end
 
+  def template_body
+    template_path = File.join(@path, 'template.json')
+    File.open(template_path, 'rb').read
+  end
+
+  def process!
+    client = Aws::CloudFormation::Client.new(region: region)
+    client.create_stack({
+                            stack_name: stack_fully_qualified_name,
+                            template_body: template_body
+                        })
+  end
+
   def prepare!
     if !(s3LocationAndRegion.nil?)
       bucket, region = s3LocationAndRegion[:bucket], s3LocationAndRegion[:region]
