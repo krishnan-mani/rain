@@ -1,13 +1,5 @@
 {
   "name": "test-stack-parameters-file",
   "hasParameters": true,
-  "regions": [
-    "ap-south-1"
-  ],
-  "environments": {
-    "dev": {
-      "region": "ap-south-1",
-      "action": "create"
-    }
-  }
+  "region": "ap-south-1"
 }

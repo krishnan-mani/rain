@@ -11,14 +11,11 @@ class StackLifecycle
 
   SEPARATOR = '-'
 
-  def initialize(artifacts_folder_path, environment_name = nil, opts = {})
+  def initialize(artifacts_folder_path, opts = {})
     @path = artifacts_folder_path
-
-    get_metadata
-    @environment = environment_name || metadata["environments"].keys.first
     @options = opts.dup
-    template_local_path = File.join(@path, 'template.json')
-    @template = set_template(template_local_path)
+    get_metadata
+    @template = set_template(File.join(@path, 'template.json'))
   end
 
   def set_template(template_local_path)
@@ -28,26 +25,39 @@ class StackLifecycle
   end
 
   def template_key
-    "#{stack_name}/#{@environment}/#{region}/template.json"
+    "#{stack_name}/template.json"
   end
 
-  def name(environment_name)
-    base_name = metadata["name"]
-    environment = metadata["environments"][environment_name]
-    env_region = environment["region"]
-    "#{base_name}#{SEPARATOR}#{environment_name}#{SEPARATOR}#{env_region}"
+  def context_free?
+    not (has_contexts? or has_environments?)
   end
 
-  def stack_fully_qualified_name
-    name(@environment)
+  def has_contexts?
+    not metadata["contexts"].nil?
+  end
+
+  def has_environments?
+    not metadata["environments"].nil?
+  end
+
+  def contexts
+    has_contexts? ? metadata["contexts"].keys : nil
+  end
+
+  def environments
+    has_environments? ? metadata["environments"].keys : nil
   end
 
   def stack_name
     metadata["name"]
   end
 
-  def region
-    metadata["environments"][@environment]["region"]
+  def name
+    metadata["name"]
+  end
+
+  def stack_name_for_context(context_name)
+    "#{name}-context-#{context_name}-#{region_for_context(context_name)}"
   end
 
   def metadata
@@ -55,54 +65,83 @@ class StackLifecycle
   end
 
   def copyToS3?
-    @metadata["copyToS3"]
+    metadata["copyToS3"]
+  end
+
+  def context_free_region
+    context_free? ? (region.nil? ? "ap-south-1" : region) : nil
+  end
+
+  def region
+    metadata["region"]
+  end
+
+  def region_for_context(context_name)
+    metadata["contexts"][context_name]["region"]
   end
 
   def has_parameters?
     metadata["hasParameters"]
   end
 
-  def s3LocationAndRegion
-    copyToS3? ? {bucket: @options[:s3Location], region: @options[:s3Region]} : nil
-  end
-
   def exists?
-    client = Aws::CloudFormation::Client.new(region: region)
+    client = Aws::CloudFormation::Client.new(region: context_free_region)
     stack_resource = Aws::CloudFormation::Resource.new(client: client)
-    stack = stack_resource.stack(stack_fully_qualified_name)
+    stack = stack_resource.stack(stack_name)
     stack.exists?
   end
 
-  def list
-    client = Aws::CloudFormation::Client.new(region: region)
-    response = client.describe_stacks(stack_name: stack_fully_qualified_name)
-    response.stacks[0] if (response and response.stacks and (response.stacks.length > 0))
+  def exists_for_context_name?(context_name)
+    client = Aws::CloudFormation::Client.new(region: region_for_context(context_name))
+    stack_resource = Aws::CloudFormation::Resource.new(client: client)
+    stack = stack_resource.stack(stack_name_for_context(context_name))
+    stack.exists?
   end
 
-  def process!
-    raise RainErrors::StackAlreadyExistsError, "Stack exists: #{stack_fully_qualified_name}" if exists?
-    create!
+  def process_for_context(context_name)
+    raise RainErrors::StackAlreadyExistsError, "Stack exists: #{stack_name_for_context(context_name)}" if exists_for_context_name?(context_name)
+    create_for_context(context_name)
   end
 
-
-  def create!
-    options = {stack_name: stack_fully_qualified_name}
-
+  def create_for_context(context_name)
+    options = {stack_name: stack_name_for_context(context_name)}
     options.merge!(get_template_element)
-    options.merge!("parameters": get_parameters) if has_parameters?
+    options.merge!("parameters": get_parameters_for_context(context_name)) if has_parameters?
 
-    cf = Aws::CloudFormation::Client.new(region: region)
+    cf = Aws::CloudFormation::Client.new(region: region_for_context(context_name))
     stack_resource = Aws::CloudFormation::Resource.new(client: cf)
     stack = stack_resource.create_stack(options)
     stack.wait_until_exists
   end
 
-  def get_template_element;
+  def process!
+    raise RainErrors::StackAlreadyExistsError, "Stack exists: #{stack_name}" if exists?
+    create!
+  end
+
+  def create!
+    options = {stack_name: stack_name}
+
+    options.merge!(get_template_element)
+    options.merge!("parameters": get_parameters) if has_parameters?
+
+    cf = Aws::CloudFormation::Client.new(region: context_free_region)
+    stack_resource = Aws::CloudFormation::Resource.new(client: cf)
+    stack = stack_resource.create_stack(options)
+    stack.wait_until_exists
+  end
+
+  def get_template_element
     @template.get_template_element;
   end
 
+  def get_parameters_for_context(context_name)
+    parameters_path = File.join(@path, "contexts", context_name, region_for_context(context_name), 'template.json')
+    to_parameters_format(JSON.parse(File.read(parameters_path)))
+  end
+
   def get_parameters
-    parameters_path = File.join(@path, "environments", @environment, region, 'parameters.json')
+    parameters_path = File.join(@path, 'parameters.json')
     to_parameters_format(JSON.parse(File.read(parameters_path)))
   end
 

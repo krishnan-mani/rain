@@ -1,12 +1,4 @@
 {
   "name": "test-stack-local",
-  "regions": [
-    "us-east-1"
-  ],
-  "environments": {
-    "dev": {
-      "region": "ap-south-1",
-      "action": "create"
-    }
-  }
+  "region": "ap-south-1"
 }

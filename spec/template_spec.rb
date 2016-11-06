@@ -6,7 +6,7 @@ RSpec.describe 'it copies stack artifacts' do
 
   base_path = File.dirname(__FILE__)
   stack_artifacts_path = File.join(base_path, 'test-stack-s3')
-  stack = StackLifecycle.new(stack_artifacts_path, 'dev', options)
+  stack = StackLifecycle.new(stack_artifacts_path, options)
 
   s3 = Aws::S3::Client.new(region: artifacts_region)
   before(:each) do
@@ -19,7 +19,7 @@ RSpec.describe 'it copies stack artifacts' do
 
   it 'copies the stack to a location in S3' do
     expect(stack.metadata["copyToS3"]).to be true
-    prefix = "test-stack-s3/dev/ap-south-1/template.json"
+    prefix = "test-stack-s3/template.json"
     response = s3.list_objects({
                                    bucket: my_bucket,
                                    prefix: prefix

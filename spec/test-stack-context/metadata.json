@@ -1,0 +1,9 @@
+{
+  "name": "test-stack-context",
+  "contexts": {
+    "foo": {
+      "region": "ap-south-1",
+      "action": "create"
+    }
+  }
+}

@@ -9,7 +9,7 @@ client = Aws::CloudFormation::Client.new(region: 'ap-south-1')
 
 RSpec.describe StackLifecycle do
 
-  stack_name = 'test-stack-local-dev-ap-south-1'
+  stack_name = 'test-stack-local'
 
   before(:each) do
     delete_stack(stack_name, client)
