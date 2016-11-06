@@ -9,6 +9,14 @@ task :describe, [:artifacts_path, :environment] do |t, args|
   puts PrintModule.print_metadata(stack.metadata)
 end
 
+desc "process"
+task :process, [:artifacts_path] do |t, args|
+  path = args.artifacts_path || File.dirname(__FILE__)
+  stack = StackLifecycle.new(path)
+  stack.process!
+end
+
+
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)

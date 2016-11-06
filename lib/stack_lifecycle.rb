@@ -7,14 +7,13 @@ require_relative 'rain_errors'
 class StackLifecycle
 
   attr_reader :path
-  attr_reader :environment
 
   SEPARATOR = '-'
 
-  def initialize(artifacts_folder_path, environment_name, opts = {})
+  def initialize(artifacts_folder_path, environment_name = nil, opts = {})
     @path = artifacts_folder_path
-    @environment = environment_name
     get_metadata
+    @environment = environment_name || metadata["environments"].keys.first
     @options = opts.dup
   end
 
@@ -81,8 +80,7 @@ class StackLifecycle
                            bucket: bucket
                        })
       rescue Aws::S3::Errors::ServiceError => ex
-        p "Error involving S3 bucket: #{bucket}"
-        p "Error: #{ex}"
+        p "Error for s3 bucket #{bucket}: #{ex.message}" #TODO: log errors
         s3.create_bucket({bucket: bucket})
       end
 

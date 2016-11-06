@@ -37,7 +37,7 @@ RSpec.describe StackLifecycle do
     environments = stack.metadata["environments"]
     expect(environments["dev"]).not_to be nil
     expect(environments["dev"]["region"]).to eql('ap-south-1')
-    expect(environments["dev"]["action"]).to eql('recreate')
+    expect(environments["dev"]["action"]).to eql('create')
   end
 
   it 'constructs a name for the realized stack based on the environment and region' do

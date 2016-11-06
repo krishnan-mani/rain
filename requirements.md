@@ -11,7 +11,13 @@
   - Report an error if the stack is not in a good state when an action is attempted or completed.
   - If changes are in progress when an action is attempted, retry multiple times with a delay, then timeout and report an error.
 
+- Use with single stacks: no context or environment, single context or environment, multiple contexts or environments, both contexts and environments
+- Use with multiple stacks
 - Assemble parameters from multiple sources
+- Work with contexts
+- Work with environments
+- Turn validate output into a starter file for parameters and infer capabilities
+- Describe outputs
 - Persist and retrieve confidential information from a trust store
 - Acknowledge the capabilities required by the template to create the stack (CAPABILITY_IAM, CAPABILITY_NAMED_IAM)
 - Copy template to S3 location when required
