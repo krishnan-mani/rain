@@ -63,17 +63,12 @@ class StackLifecycle
   def list
     client = Aws::CloudFormation::Client.new(region: region)
     response = client.describe_stacks(stack_name: stack_fully_qualified_name)
-    response.stacks[0] if (response and response.stacks and response.stacks.length > 0)
+    response.stacks[0] if (response and response.stacks and (response.stacks.length > 0))
   end
 
   def process!
     raise RainErrors::StackAlreadyExistsError, "Stack exists: #{stack_fully_qualified_name}" if exists?
-
-    client = Aws::CloudFormation::Client.new(region: region)
-    client.create_stack({
-                            stack_name: stack_fully_qualified_name,
-                            template_body: template_body
-                        })
+    create!
   end
 
   def prepare!
@@ -106,11 +101,10 @@ class StackLifecycle
   def create!
     cf = Aws::CloudFormation::Client.new(region: region)
     stack_resource = Aws::CloudFormation::Resource.new(client: cf)
-    template_url = prepare!
-    stack = stack_resource.create_stack({
-                                            stack_name: stack_fully_qualified_name,
-                                            template_url: template_url
-                                        })
+    template_content = copyToS3? ? {"template_url": prepare!} : {"template_body": template_body}
+    options = {stack_name: stack_fully_qualified_name}
+    options.merge!(template_content)
+    stack = stack_resource.create_stack(options)
     stack.wait_until_exists
   end
 
