@@ -2,6 +2,7 @@ require 'aws-sdk'
 
 
 require_relative 'rain_errors'
+require_relative 'template'
 
 
 class StackLifecycle
@@ -12,9 +13,22 @@ class StackLifecycle
 
   def initialize(artifacts_folder_path, environment_name = nil, opts = {})
     @path = artifacts_folder_path
+
     get_metadata
     @environment = environment_name || metadata["environments"].keys.first
     @options = opts.dup
+    template_local_path = File.join(@path, 'template.json')
+    @template = set_template(template_local_path)
+  end
+
+  def set_template(template_local_path)
+    copyToS3? ?
+        TemplateInS3.new(template_local_path, @options[:s3Location], @options[:s3Region], template_key) :
+        TemplateLocal.new(template_local_path)
+  end
+
+  def template_key
+    "#{stack_name}/#{@environment}/#{region}/template.json"
   end
 
   def name(environment_name)
@@ -44,13 +58,12 @@ class StackLifecycle
     @metadata["copyToS3"]
   end
 
-  def s3LocationAndRegion
-    copyToS3? ? {bucket: @options[:s3Location], region: @options[:s3Region]} : nil
+  def has_parameters?
+    metadata["hasParameters"]
   end
 
-  def template_body
-    template_path = File.join(@path, 'template.json')
-    File.open(template_path, 'rb').read
+  def s3LocationAndRegion
+    copyToS3? ? {bucket: @options[:s3Location], region: @options[:s3Region]} : nil
   end
 
   def exists?
@@ -71,41 +84,32 @@ class StackLifecycle
     create!
   end
 
-  def prepare!
-    if !(s3LocationAndRegion.nil?)
-      bucket, region = s3LocationAndRegion[:bucket], s3LocationAndRegion[:region]
-
-      s3 = Aws::S3::Client.new(region: region)
-      begin
-        s3.head_bucket({
-                           bucket: bucket
-                       })
-      rescue Aws::S3::Errors::ServiceError => ex
-        p "Error for s3 bucket #{bucket}: #{ex.message}" #TODO: log errors
-        s3.create_bucket({bucket: bucket})
-      end
-
-      key = "#{stack_name}/#{@environment}/#{metadata["environments"][@environment]["region"]}/template.json"
-      template_path = File.join(@path, 'template.json')
-      File.open(template_path, 'rb') do |file|
-        s3.put_object(
-            bucket: s3LocationAndRegion[:bucket],
-            key: key,
-            body: file
-        )
-      end
-      "https://s3.amazonaws.com/#{bucket}/#{key}"
-    end
-  end
 
   def create!
+    options = {stack_name: stack_fully_qualified_name}
+
+    options.merge!(get_template_element)
+    options.merge!("parameters": get_parameters) if has_parameters?
+
     cf = Aws::CloudFormation::Client.new(region: region)
     stack_resource = Aws::CloudFormation::Resource.new(client: cf)
-    template_content = copyToS3? ? {"template_url": prepare!} : {"template_body": template_body}
-    options = {stack_name: stack_fully_qualified_name}
-    options.merge!(template_content)
     stack = stack_resource.create_stack(options)
     stack.wait_until_exists
+  end
+
+  def get_template_element;
+    @template.get_template_element;
+  end
+
+  def get_parameters
+    parameters_path = File.join(@path, "environments", @environment, region, 'parameters.json')
+    to_parameters_format(JSON.parse(File.read(parameters_path)))
+  end
+
+  def to_parameters_format(parameters_from_file)
+    parameters_from_file.collect { |el|
+      {"parameter_key": el["ParameterKey"], "parameter_value": el["ParameterValue"]}
+    }
   end
 
   private

@@ -1,7 +1,7 @@
 {
-  "name": "test-stack",
+  "name": "test-stack-parameters-file",
+  "hasParameters": true,
   "regions": [
-    "us-east-1",
     "ap-south-1"
   ],
   "environments": {

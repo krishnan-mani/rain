@@ -105,7 +105,30 @@ RSpec.configure do |config|
   config.order = :random
 end
 
-
 def delete_stack(stack_name, client)
   client.delete_stack({stack_name: stack_name})
+end
+
+require 'securerandom'
+
+def get_artifacts_bucket
+  artifacts_bucket = "artifacts-workshop"
+  "#{artifacts_bucket}-#{SecureRandom.random_number(10)}"
+end
+
+def cleanup(client, bucket)
+  begin
+    client.delete_objects({
+                              bucket: bucket,
+                              delete: {
+                                  objects: [
+                                      {
+                                          key: "test-stack/dev/ap-south-1/template.json", # required
+                                      }
+                                  ]
+                              }
+                          })
+    client.delete_bucket(bucket: bucket)
+  rescue Aws::S3::Errors::ServiceError
+  end
 end

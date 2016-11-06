@@ -1,0 +1,23 @@
+{
+  "Parameters": {
+    "fooValue": {
+      "Description": "Some foo",
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "foo",
+            "Value": {
+              "Ref": "fooValue"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
