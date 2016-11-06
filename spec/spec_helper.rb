@@ -104,3 +104,8 @@ RSpec.configure do |config|
   config.filter_run_when_matching :focus
   config.order = :random
 end
+
+
+def delete_stack(stack_name, client)
+  client.delete_stack({stack_name: stack_name})
+end

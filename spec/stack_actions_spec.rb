@@ -10,10 +10,6 @@ stack = StackLifecycle.new(stack_artifacts_path, 'dev')
 cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
 stack_resource = Aws::CloudFormation::Resource.new(client: cf)
 
-def delete_stack(stack_name, client)
-  client.delete_stack({stack_name: stack_name})
-end
-
 RSpec.describe StackLifecycle do
 
   before(:each) do
