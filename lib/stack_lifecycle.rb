@@ -60,6 +60,12 @@ class StackLifecycle
     stack.exists?
   end
 
+  def list
+    client = Aws::CloudFormation::Client.new(region: region)
+    response = client.describe_stacks(stack_name: stack_fully_qualified_name)
+    response.stacks[0] if (response and response.stacks and response.stacks.length > 0)
+  end
+
   def process!
     raise RainErrors::StackAlreadyExistsError, "Stack exists: #{stack_fully_qualified_name}" if exists?
 

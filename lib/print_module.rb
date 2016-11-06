@@ -6,4 +6,11 @@ module PrintModule
     }.join("\n")
   end
 
+  def self.print_stack_description(stack_description_response)
+    [
+        "Name: #{stack_description_response.stack_name}",
+        "Status: #{stack_description_response.stack_status}"
+    ].join("\n")
+  end
+
 end

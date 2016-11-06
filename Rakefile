@@ -9,6 +9,13 @@ task :describe, [:artifacts_path, :environment] do |t, args|
   puts PrintModule.print_metadata(stack.metadata)
 end
 
+desc "List current stack status"
+task :list, [:artifacts_path] do |t, args|
+  path = args.artifacts_path || File.dirname(__FILE__)
+  stack = StackLifecycle.new(path)
+  puts PrintModule.print_stack_description(stack.list)
+end
+
 desc "process"
 task :process, [:artifacts_path] do |t, args|
   path = args.artifacts_path || File.dirname(__FILE__)
