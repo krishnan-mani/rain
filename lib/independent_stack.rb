@@ -1,4 +1,4 @@
-require 'stack'
+require_relative 'stack'
 
 
 class IndependentStack

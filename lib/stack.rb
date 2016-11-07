@@ -80,6 +80,6 @@ module Stack
     metadata_file = File.read(File.join(@path, 'metadata.json'))
     @metadata = JSON.parse(metadata_file)
   end
-  
+
 end
 

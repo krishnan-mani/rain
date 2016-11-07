@@ -1,6 +1,7 @@
 require 'ci/reporter/rake/rspec'
 
-require_relative 'lib/stack_lifecycle'
+require_relative 'lib/independent_stack'
+require_relative 'lib/context_stack'
 require_relative 'lib/print_module'
 
 
@@ -14,8 +15,8 @@ desc "process_for_context"
 task :process_for_context, [:artifacts_path, :context_name] do |t, args|
   path = args.artifacts_path
   context_name = args.context_name
-  stack = IndependentStack.new(path)
-  stack.process_for_context(context_name)
+  stack = ContextStack.new(path, context_name)
+  stack.process!
 end
 
 desc "process"
