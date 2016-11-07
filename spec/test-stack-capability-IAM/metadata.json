@@ -1,0 +1,5 @@
+{
+  "name": "test-stack-capability-IAM",
+  "region": "ap-south-1",
+  "action": "create"
+}

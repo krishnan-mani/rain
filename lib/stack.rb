@@ -30,6 +30,7 @@ module Stack
     options = {stack_name: stack_name}
     options.merge!(get_template_element)
     options.merge!("parameters": get_parameters) if has_parameters?
+    options.merge!("capabilities": get_capabilities)
 
     cf = Aws::CloudFormation::Client.new(region: region)
     stack_resource = Aws::CloudFormation::Resource.new(client: cf)
@@ -54,6 +55,12 @@ module Stack
     parameters_from_file.collect { |el|
       {"parameter_key": el["ParameterKey"], "parameter_value": el["ParameterValue"]}
     }
+  end
+
+  def get_capabilities
+    client = Aws::CloudFormation::Client.new(region: region)
+    response = client.validate_template(get_template_element)
+    response.capabilities
   end
 
   def metadata
