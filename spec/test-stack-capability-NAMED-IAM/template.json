@@ -1,0 +1,10 @@
+{
+  "Resources": {
+    "user": {
+      "Type": "AWS::IAM::User",
+      "Properties": {
+        "UserName": "vijayDinanathChavan"
+      }
+    }
+  }
+}
