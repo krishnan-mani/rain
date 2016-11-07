@@ -34,7 +34,6 @@ class TemplateInS3
     @bucket = artifacts_s3_bucket
     @region = artifacts_s3_region
     @template_key = template_key
-    @template_url = upload_template
   end
 
   def upload_template
@@ -59,7 +58,7 @@ class TemplateInS3
   end
 
   def get_template_element
-    {"template_url": @template_url}
+    {"template_url": upload_template}
   end
 
 end

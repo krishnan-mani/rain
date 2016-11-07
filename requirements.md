@@ -4,13 +4,13 @@
 - For any specified contexts, act on each context
 - Support workflows with actions including create, recreate, update-only, and create-change-set
 
-  - create: Test whether the stack exists. If not, create it
-  - recreate: If the stack exists in any state, delete it and create again. If it does not exist, create it. 
-  - update-only: Only update the stack (if it is in a good state)
-  - create-change-set: Only create a change-set for the stack (when it is in a good state).   
+  - create: Test whether the stack exists. If not, create it. If it exists, create a change-set.
+  - recreate: If the stack exists, delete it and create again. If it does not exist, create it. 
+  - update: If the stack exists, update it. If not, create it
   - Report an error if the stack is not in a good state when an action is attempted or completed.
   - If changes are in progress when an action is attempted, retry multiple times with a delay, then timeout and report an error.
 
+- TODO: Clarify behaviour for bad states
 - Work with contexts
 - Work with environments
 - Use with single stacks: no context or environment, single context or environment, multiple contexts or environments, both contexts and environments

@@ -1,12 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    aws-sdk (2.6.17)
-      aws-sdk-resources (= 2.6.17)
-    aws-sdk-core (2.6.17)
+    aws-sdk (2.6.18)
+      aws-sdk-resources (= 2.6.18)
+    aws-sdk-core (2.6.18)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.6.17)
-      aws-sdk-core (= 2.6.17)
+    aws-sdk-resources (2.6.18)
+      aws-sdk-core (= 2.6.18)
     builder (3.2.2)
     ci_reporter (2.0.0)
       builder (>= 2.1.2)

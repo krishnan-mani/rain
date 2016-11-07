@@ -6,6 +6,12 @@ require_relative 'rain_errors'
 
 module Stack
 
+  CREATE_ACTION = 'create'
+  UPDATE_ACTION = 'update'
+  RECREATE_ACTION = 'recreate'
+
+  STACK_ACTIONS = [CREATE_ACTION, UPDATE_ACTION, RECREATE_ACTION]
+
   SEPARATOR = '-'
 
   def set_template(template_local_path)
@@ -21,9 +27,41 @@ module Stack
     stack.exists?
   end
 
+  def action
+    metadata["action"]
+  end
+
   def process!
-    raise RainErrors::StackAlreadyExistsError, "Stack exists: #{stack_name}" if exists?
-    create!
+    case action
+      when CREATE_ACTION
+        create_action!
+      when UPDATE_ACTION
+        update_action!
+      else
+        raise RainErrors::StackActionNotSupportedError, "Action: #{action}"
+    end
+  end
+
+  def create_action!
+    exists? ? create_change_set : create!
+  end
+
+  def update_action!
+    exists? ? update! : create!
+  end
+
+  def update!
+    options = {stack_name: stack_name}
+    options.merge!(get_template_element)
+    options.merge!("parameters": get_parameters) if has_parameters?
+    options.merge!("capabilities": get_capabilities)
+
+    cf = Aws::CloudFormation::Client.new(region: region)
+    cf.update_stack(options)
+  end
+
+  def create_change_set
+    raise Error, "not implemented"
   end
 
   def create!

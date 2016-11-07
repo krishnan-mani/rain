@@ -16,6 +16,10 @@ class ContextStack
     metadata["contexts"][@context_name]["region"]
   end
 
+  def action
+    metadata["contexts"][@context_name]["action"]
+  end
+
   def stack_name
     "#{name}#{SEPARATOR}context#{SEPARATOR}#{@context_name}#{SEPARATOR}#{region}"
   end
