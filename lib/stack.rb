@@ -60,8 +60,19 @@ module Stack
     cf.update_stack(options)
   end
 
+  def change_set_name
+    "D#{Time.new.strftime("%Y%m%dT%H%M%S%z").gsub('+', '-')}"
+  end
+
   def create_change_set
-    raise Error, "not implemented"
+    options = {stack_name: stack_name}
+    options.merge!(get_template_element)
+    options.merge!("parameters": get_parameters) if has_parameters?
+    options.merge!("capabilities": get_capabilities)
+    options.merge!(change_set_name: change_set_name)
+
+    cf = Aws::CloudFormation::Client.new(region: region)
+    cf.create_change_set(options)
   end
 
   def create!

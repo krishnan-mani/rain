@@ -1,6 +1,5 @@
 {
-  "name": "test-stack-s3",
-  "copyToS3": true,
+  "name": "test-stack-process",
   "region": "ap-south-1",
   "action": "create"
 }

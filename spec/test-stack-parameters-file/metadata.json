@@ -1,5 +1,6 @@
 {
   "name": "test-stack-parameters-file",
   "hasParameters": true,
-  "region": "ap-south-1"
+  "region": "ap-south-1",
+  "action": "create"
 }
