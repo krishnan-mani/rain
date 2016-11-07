@@ -1,6 +1,5 @@
 require 'aws-sdk'
 
-
 require_relative 'rain_errors'
 require_relative 'template'
 
@@ -132,11 +131,11 @@ class StackLifecycle
   end
 
   def get_template_element
-    @template.get_template_element;
+    @template.get_template_element
   end
 
   def get_parameters_for_context(context_name)
-    parameters_path = File.join(@path, "contexts", context_name, region_for_context(context_name), 'template.json')
+    parameters_path = File.join(@path, "contexts", context_name, region_for_context(context_name), 'parameters.json')
     to_parameters_format(JSON.parse(File.read(parameters_path)))
   end
 
