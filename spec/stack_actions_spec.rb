@@ -1,17 +1,17 @@
 require 'aws-sdk'
 
-require_relative '../lib/stack_lifecycle'
+require_relative '../lib/independent_stack'
 
 
 base_path = File.dirname(__FILE__)
 stack_name = 'test-stack-create'
 stack_artifacts_path = File.join(base_path, stack_name)
-stack = StackLifecycle.new(stack_artifacts_path)
+stack = IndependentStack.new(stack_artifacts_path)
 
 cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
 stack_resource = Aws::CloudFormation::Resource.new(client: cf)
 
-RSpec.describe StackLifecycle do
+RSpec.describe IndependentStack do
 
   before(:each) do
     delete_stack(stack_name, cf)

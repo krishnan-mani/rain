@@ -1,13 +1,13 @@
-require_relative '../lib/stack_lifecycle'
+require_relative '../lib/independent_stack'
 
 
 base_path = File.dirname(__FILE__)
 stack_artifacts_path = File.join(base_path, 'test-stack-local')
-stack = StackLifecycle.new(stack_artifacts_path)
+stack = IndependentStack.new(stack_artifacts_path)
 client = Aws::CloudFormation::Client.new(region: 'ap-south-1')
 
 
-RSpec.describe StackLifecycle do
+RSpec.describe IndependentStack do
 
   stack_name = 'test-stack-local'
 

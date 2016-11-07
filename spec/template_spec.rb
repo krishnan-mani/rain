@@ -1,3 +1,5 @@
+require_relative '../lib/independent_stack'
+
 RSpec.describe 'it copies stack artifacts' do
 
   my_bucket = get_artifacts_bucket
@@ -6,7 +8,7 @@ RSpec.describe 'it copies stack artifacts' do
 
   base_path = File.dirname(__FILE__)
   stack_artifacts_path = File.join(base_path, 'test-stack-s3')
-  stack = StackLifecycle.new(stack_artifacts_path, options)
+  stack = IndependentStack.new(stack_artifacts_path, options)
 
   s3 = Aws::S3::Client.new(region: artifacts_region)
   before(:each) do

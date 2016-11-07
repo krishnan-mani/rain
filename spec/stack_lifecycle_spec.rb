@@ -1,22 +1,15 @@
-require_relative '../lib/stack_lifecycle'
+require_relative '../lib/independent_stack'
 
 base_path = File.dirname(__FILE__)
 stack_artifacts_path = File.join(base_path, 'test-stack')
 
-RSpec.describe StackLifecycle do
+RSpec.describe IndependentStack do
 
-  stack = StackLifecycle.new(stack_artifacts_path)
+  stack = IndependentStack.new(stack_artifacts_path)
 
   it 'obtains the stack information from metadata' do
     expect(stack.metadata["name"]).to eql('test-stack')
   end
-
-  # it 'determines any environments and a supported region and action for the environment' do
-  #   environments = stack.metadata["environments"]
-  #   expect(environments["dev"]).not_to be nil
-  #   expect(environments["dev"]["region"]).to eql('ap-south-1')
-  #   expect(environments["dev"]["action"]).to eql('create')
-  # end
 
   it 'constructs a name for the realized stack based on the environment and region' do
     expect(stack.stack_name).to eql('test-stack')
@@ -27,7 +20,7 @@ end
 
 RSpec.describe 'it creates stack' do
 
-  stack = StackLifecycle.new(stack_artifacts_path)
+  stack = IndependentStack.new(stack_artifacts_path)
 
   cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
   stack_name = 'test-stack'
