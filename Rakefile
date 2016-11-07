@@ -25,7 +25,6 @@ task :process, [:artifacts_path] do |t, args|
   stack.process!
 end
 
-
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)

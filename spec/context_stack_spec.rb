@@ -10,6 +10,10 @@ RSpec.describe StackLifecycle do
   cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
   stack_name = 'test-stack-context-context-foo-ap-south-1'
 
+  before(:each) do
+    cf.delete_stack(stack_name: stack_name)
+  end
+
   after(:each) do
     cf.delete_stack(stack_name: stack_name)
   end

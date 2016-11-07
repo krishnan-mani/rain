@@ -32,6 +32,10 @@ RSpec.describe 'it creates stack' do
   cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
   stack_name = 'test-stack'
 
+  before(:each) do
+    cf.delete_stack(stack_name: stack_name)
+  end
+
   after(:each) do
     cf.delete_stack(stack_name: stack_name)
   end
