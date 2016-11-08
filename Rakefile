@@ -12,17 +12,19 @@ task :describe, [:artifacts_path] do |t, args|
 end
 
 desc "process_for_context"
-task :process_for_context, [:artifacts_path, :context_name] do |t, args|
+task :process_for_context, [:artifacts_path, :context_name, :s3_bucket, :s3_region] do |t, args|
   path = args.artifacts_path
   context_name = args.context_name
-  stack = ContextStack.new(path, context_name)
+  s3_bucket, s3_region = args.s3_bucket, args.s3_region
+  stack = ContextStack.new(path, context_name, {s3Location: s3_bucket, s3Region: s3_region})
   stack.process!
 end
 
 desc "process"
-task :process, [:artifacts_path] do |t, args|
+task :process, [:artifacts_path, :s3_bucket, :s3_region] do |t, args|
   path = args.artifacts_path || File.dirname(__FILE__)
-  stack = IndependentStack.new(path)
+  s3_bucket, s3_region = args.s3_bucket, args.s3_region
+  stack = IndependentStack.new(path, {s3Location: s3_bucket, s3_region: s3_region})
   stack.process!
 end
 
