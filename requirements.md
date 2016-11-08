@@ -2,7 +2,7 @@
 - For any specified environments, act on the stacks with the desired action
 - Currently for each environment, only one region can be specified
 - For any specified contexts, act on each context
-- Support workflows with actions including create, recreate, update-only, and create-change-set
+- Support workflows with actions including create, recreate, update
 
   - create: Test whether the stack exists. If not, create it. If it exists, create a change-set.
   - recreate: If the stack exists, delete it and create again. If it does not exist, create it. 
