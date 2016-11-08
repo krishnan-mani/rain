@@ -1,0 +1,10 @@
+{
+  "name": "def",
+  "hasParameters": true,
+  "contexts": {
+    "xyz": {
+      "region": "ap-south-1",
+      "action": "create"
+    }
+  }
+}

@@ -11,21 +11,6 @@ class IndependentStack
     @template = set_template(File.join(@path, 'template.json'))
   end
 
-  def has_contexts?
-    not metadata["contexts"].nil?
-  end
-
-  def has_environments?
-    not metadata["environments"].nil?
-  end
-
-  # def contexts
-  #   has_contexts? ? metadata["contexts"].keys : nil
-  # end
-  #
-  # def environments
-  #   has_environments? ? metadata["environments"].keys : nil
-  # end
 
   def stack_name
     name

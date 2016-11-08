@@ -1,6 +1,8 @@
 require 'yaml'
 
 require_relative 'independent_stack'
+require_relative 'context_stack'
+require_relative 'stack_info'
 
 class RainDance
 
@@ -12,9 +14,21 @@ class RainDance
   def do_jig!
     stacks = []
     manifest["templates"].each do |template|
-      stacks.push(IndependentStack.new(File.join(@path, templates_path, template)))
+      stack = get_stack_instance(File.join(@path, templates_path, template))
+      stacks.push(stack)
     end
-    stacks.each { |stack| stack.process! }
+    stacks.flatten.each { |stack| stack.process! }
+  end
+
+  def get_stack_instance(template_path)
+    stack_info = StackInfo.new(template_path)
+    if stack_info.independent?
+      IndependentStack.new(template_path)
+    else
+      stack_info.contexts.collect do |context|
+        ContextStack.new(template_path, context)
+      end
+    end
   end
 
   def load_manifest

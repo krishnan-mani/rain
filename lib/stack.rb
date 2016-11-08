@@ -2,9 +2,16 @@ require 'aws-sdk'
 
 require_relative 'template'
 require_relative 'rain_errors'
+require_relative 'stack_info_module'
 
 
 module Stack
+
+  def self.included klass
+    klass.class_eval do
+      include StackInfoModule
+    end
+  end
 
   CREATE_ACTION = 'create'
   UPDATE_ACTION = 'update'
@@ -112,10 +119,6 @@ module Stack
     response.capabilities
   end
 
-  def metadata
-    @metadata.dup
-  end
-
   def region
     metadata["region"]
   end
@@ -130,11 +133,6 @@ module Stack
 
   def has_parameters?
     metadata["hasParameters"]
-  end
-
-  def get_metadata
-    metadata_file = File.read(File.join(@path, 'metadata.json'))
-    @metadata = JSON.parse(metadata_file)
   end
 
 end

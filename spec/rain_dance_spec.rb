@@ -10,7 +10,7 @@ RSpec.describe RainDance do
 
   it 'reads manifest files available' do
     manifest = dance.manifest
-    expect(manifest["templates"]).to eql(['abc'])
+    expect(manifest["templates"]).to eql(['abc', 'def'])
   end
 
   it 'reads the path to stacks' do
