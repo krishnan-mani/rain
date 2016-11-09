@@ -63,8 +63,10 @@ module Stack
     options.merge!("parameters": get_parameters) if has_parameters?
     options.merge!("capabilities": get_capabilities)
 
+    puts "Updating stack #{stack_name}"
     cf = Aws::CloudFormation::Client.new(region: region)
     cf.update_stack(options)
+    puts "Updated stack #{stack_name}"
   end
 
   def change_set_name
@@ -76,10 +78,14 @@ module Stack
     options.merge!(get_template_element)
     options.merge!("parameters": get_parameters) if has_parameters?
     options.merge!("capabilities": get_capabilities)
-    options.merge!(change_set_name: change_set_name)
 
+    _change_set_name = change_set_name
+    options.merge!(change_set_name: _change_set_name)
+
+    puts "Creating change set #{_change_set_name} against stack #{stack_name}"
     cf = Aws::CloudFormation::Client.new(region: region)
     cf.create_change_set(options)
+    puts "Created change set #{_change_set_name} against stack #{stack_name}"
   end
 
   def create!
@@ -90,8 +96,11 @@ module Stack
 
     cf = Aws::CloudFormation::Client.new(region: region)
     stack_resource = Aws::CloudFormation::Resource.new(client: cf)
+
+    puts "Creating stack #{stack_name}"
     stack = stack_resource.create_stack(options)
     stack.wait_until_exists
+    puts "Created stack #{stack_name}"
   end
 
   def template_key
