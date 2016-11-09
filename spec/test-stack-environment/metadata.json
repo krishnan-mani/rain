@@ -1,0 +1,9 @@
+{
+  "name": "test-stack-environment",
+  "environments": {
+    "von": {
+      "region": "ap-south-1",
+      "action": "create"
+    }
+  }
+}

@@ -2,6 +2,7 @@ require 'yaml'
 
 require_relative 'independent_stack'
 require_relative 'context_stack'
+require_relative 'environment_stack'
 require_relative 'stack_info'
 
 class RainDance
@@ -25,9 +26,16 @@ class RainDance
     if stack_info.independent?
       IndependentStack.new(template_path)
     else
-      stack_info.contexts.collect do |context|
+
+      context_stacks = stack_info.contexts.collect do |context|
         ContextStack.new(template_path, context)
       end
+
+      environment_stacks = stack_info.environments.collect do |environment|
+        EnvironmentStack.new(template_path, environment)
+      end
+
+      context_stacks.concat(environment_stacks)
     end
   end
 

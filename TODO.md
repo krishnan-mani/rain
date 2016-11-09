@@ -1,4 +1,4 @@
-- add environment stack
+- context/environment stacks that do not have parameters
 - add init and configuration mechanism
 - accept either JSON or YAML
 - configure notifications

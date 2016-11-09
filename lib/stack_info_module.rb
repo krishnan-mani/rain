@@ -5,9 +5,10 @@ module StackInfoModule
 
   INDEPENDENT_STACK = 'independent'
   CONTEXT_STACK = 'context'
+  ENVIRONMENT_STACK = 'environment'
 
   def stack_type
-    independent? ? INDEPENDENT_STACK : CONTEXT_STACK
+    independent? ? INDEPENDENT_STACK : (has_contexts? ? CONTEXT_STACK : ENVIRONMENT_STACK)
   end
 
   def independent?
@@ -23,11 +24,11 @@ module StackInfoModule
   end
 
   def contexts
-    has_contexts? ? metadata["contexts"].keys : nil
+    has_contexts? ? metadata["contexts"].keys : []
   end
 
   def environments
-    has_environments? ? metadata["environments"].keys : nil
+    has_environments? ? metadata["environments"].keys : []
   end
 
   def metadata
