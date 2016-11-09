@@ -6,5 +6,11 @@
       "region": "ap-south-1",
       "action": "create"
     }
+  },
+  "environments": {
+    "pqr": {
+      "region": "ap-south-1",
+      "action": "create"
+    }
   }
 }

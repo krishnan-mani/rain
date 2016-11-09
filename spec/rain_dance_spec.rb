@@ -26,18 +26,26 @@ RSpec.describe RainDance do
   before(:each) do
     delete_stack('abc', client)
     delete_stack('def-context-xyz-ap-south-1', client)
+    delete_stack('def-environment-pqr-ap-south-1', client)
   end
 
   after(:each) do
     delete_stack('abc', client)
     delete_stack('def-context-xyz-ap-south-1', client)
+    delete_stack('def-environment-pqr-ap-south-1', client)
   end
 
   it 'processes a template listed in the manifest' do
     dance.do_jig!
     stack_resource = Aws::CloudFormation::Resource.new(client: client)
-    created_stack = stack_resource.stack('abc')
-    expect(created_stack.stack_status).to match /CREATE/
+    _stack = stack_resource.stack('abc')
+    expect(_stack.stack_status).to match /CREATE/
+
+    _stack = stack_resource.stack('def-context-xyz-ap-south-1')
+    expect(_stack.stack_status).to match /CREATE/
+
+    _stack = stack_resource.stack('def-environment-pqr-ap-south-1')
+    expect(_stack.stack_status).to match /CREATE/
   end
 
 end
