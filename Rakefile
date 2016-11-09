@@ -3,12 +3,20 @@ require 'ci/reporter/rake/rspec'
 require_relative 'lib/independent_stack'
 require_relative 'lib/context_stack'
 require_relative 'lib/print_module'
+require_relative 'lib/rain_dance'
 
 
 desc "describe. For e.g.: rake describe[/Users/krishman/development/products/rain/spec/test-stack]"
 task :describe, [:artifacts_path] do |t, args|
   stack = IndependentStack.new(args.artifacts_path)
   puts PrintModule.print_metadata(stack.metadata)
+end
+
+desc "Process multiple stacks listed in manifest file"
+task :process_manifest, [:templates_folder_path, :s3_bucket, :s3_region] do |t, args|
+  templates_folder_path = args.templates_folder_path
+  rain_dance = RainDance.new(templates_folder_path)
+  rain_dance.do_jig!
 end
 
 desc "process_for_context"
