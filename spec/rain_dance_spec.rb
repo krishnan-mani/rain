@@ -25,10 +25,12 @@ RSpec.describe RainDance do
 
   before(:each) do
     delete_stack('abc', client)
+    delete_stack('def-context-xyz-ap-south-1', client)
   end
 
   after(:each) do
     delete_stack('abc', client)
+    delete_stack('def-context-xyz-ap-south-1', client)
   end
 
   it 'processes a template listed in the manifest' do
