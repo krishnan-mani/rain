@@ -54,11 +54,25 @@ module Stack
   end
 
   def create_action!
-    exists? ? create_change_set : create!
+    if exists?
+      create_change_set
+    else
+      create!
+      client = Aws::CloudFormation::Client.new(region: region)
+      client.wait_until(:stack_create_complete, stack_name: stack_name)
+    end
   end
 
   def update_action!
-    exists? ? update! : create!
+    if exists?
+      update!
+      client = Aws::CloudFormation::Client.new(region: region)
+      client.wait_until(:stack_update_complete, stack_name: stack_name)
+    else
+      create!
+      client = Aws::CloudFormation::Client.new(region: region)
+      client.wait_until(:stack_create_complete, stack_name: stack_name)
+    end
   end
 
   def update!
@@ -104,7 +118,7 @@ module Stack
 
     puts "Creating stack #{stack_name}"
     stack = stack_resource.create_stack(options)
-    stack.wait_until_exists
+    # stack.wait_until_exists
     puts "Created stack #{stack_name}"
   end
 

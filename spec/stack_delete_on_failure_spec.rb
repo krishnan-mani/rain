@@ -9,7 +9,11 @@ RSpec.describe IndependentStack do
 
   it 'deletes the stack if a failure occurs when creating the stack' do
     stack = IndependentStack.new(artifacts_path)
-    stack.process!
+    begin
+      stack.process!
+    rescue Aws::Waiters::Errors::FailureStateError => ex
+      puts "#{ex.message}"
+    end
     client.wait_until(:stack_delete_complete, stack_name: stack_name)
   end
 
