@@ -113,12 +113,9 @@ module Stack
     options.merge!("capabilities": get_capabilities)
     options.merge!(on_failure: on_failure) if on_failure
 
-    cf = Aws::CloudFormation::Client.new(region: region)
-    stack_resource = Aws::CloudFormation::Resource.new(client: cf)
-
     puts "Creating stack #{stack_name}"
-    stack = stack_resource.create_stack(options)
-    # stack.wait_until_exists
+    cf = Aws::CloudFormation::Client.new(region: region)
+    cf.create_stack(options)
     puts "Created stack #{stack_name}"
   end
 
