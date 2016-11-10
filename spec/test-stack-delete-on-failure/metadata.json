@@ -1,0 +1,6 @@
+{
+  "name": "test-stack-delete-on-failure",
+  "region": "ap-south-1",
+  "action": "create",
+  "onFailure": "DELETE"
+}

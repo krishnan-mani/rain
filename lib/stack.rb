@@ -38,6 +38,10 @@ module Stack
     metadata["action"]
   end
 
+  def on_failure
+    metadata["onFailure"]
+  end
+
   def process!
     case action
       when CREATE_ACTION
@@ -93,6 +97,7 @@ module Stack
     options.merge!(get_template_element)
     options.merge!("parameters": get_parameters) if has_parameters?
     options.merge!("capabilities": get_capabilities)
+    options.merge!(on_failure: on_failure) if on_failure
 
     cf = Aws::CloudFormation::Client.new(region: region)
     stack_resource = Aws::CloudFormation::Resource.new(client: cf)
