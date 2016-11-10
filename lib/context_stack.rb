@@ -16,6 +16,10 @@ class ContextStack
     metadata["contexts"][@context_name]["region"]
   end
 
+  def on_failure
+    metadata["contexts"][@context_name]["onFailure"]
+  end
+
   def action
     metadata["contexts"][@context_name]["action"]
   end

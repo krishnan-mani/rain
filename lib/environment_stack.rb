@@ -16,6 +16,10 @@ class EnvironmentStack
     metadata["environments"][@environment_name]["region"]
   end
 
+  def on_failure
+    metadata["environments"][@environment_name]["onFailure"]
+  end
+
   def action
     metadata["environments"][@environment_name]["action"]
   end
