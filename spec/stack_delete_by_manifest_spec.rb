@@ -16,11 +16,11 @@ RSpec.describe RainDance do
     delete_stack('def-environment-pqr-ap-south-1', client)
   end
 
-  # after(:each) do
-  #   delete_stack('abc', client)
-  #   delete_stack('def-context-xyz-ap-south-1', client)
-  #   delete_stack('def-environment-pqr-ap-south-1', client)
-  # end
+  after(:each) do
+    delete_stack('abc', client)
+    delete_stack('def-context-xyz-ap-south-1', client)
+    delete_stack('def-environment-pqr-ap-south-1', client)
+  end
 
   it 'deletes stacks for all listed in the manifest (in the reverse order)' do
     dance.do_jig!

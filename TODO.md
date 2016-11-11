@@ -4,3 +4,4 @@
 - configure notifications
 - add :client_token for idempotence (use commit hash)
 - Handle stack updates error: Aws::CloudFormation::Errors::ValidationError: No updates are to be performed
+- generate parameter information

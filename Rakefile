@@ -6,7 +6,7 @@ require_relative 'lib/print_module'
 require_relative 'lib/rain_dance'
 
 
-desc "describe. For e.g.: rake describe[/Users/krishman/development/products/rain/spec/test-stack]"
+desc "Describe the template"
 task :describe, [:artifacts_path] do |t, args|
   stack = IndependentStack.new(args.artifacts_path)
   puts PrintModule.print_metadata(stack.metadata)
@@ -15,7 +15,8 @@ end
 desc "Process multiple stacks listed in manifest file"
 task :process_manifest, [:templates_folder_path, :s3_bucket, :s3_region] do |t, args|
   templates_folder_path = args.templates_folder_path
-  rain_dance = RainDance.new(templates_folder_path)
+  s3_bucket, s3_region = args.s3_bucket, args.s3_region
+  rain_dance = RainDance.new(templates_folder_path, {s3Location: s3_bucket, s3Region: s3_region})
   rain_dance.do_jig!
 end
 
@@ -26,7 +27,7 @@ task :delete_by_manifest, [:templates_folder_path] do |t, args|
   rain_dance.delete_listed!
 end
 
-desc "process_for_context"
+desc "Process a template for a specific context"
 task :process_for_context, [:artifacts_path, :context_name, :s3_bucket, :s3_region] do |t, args|
   path = args.artifacts_path
   context_name = args.context_name
@@ -35,7 +36,7 @@ task :process_for_context, [:artifacts_path, :context_name, :s3_bucket, :s3_regi
   stack.process!
 end
 
-desc "process"
+desc "Process a template"
 task :process, [:artifacts_path, :s3_bucket, :s3_region] do |t, args|
   path = args.artifacts_path || File.dirname(__FILE__)
   s3_bucket, s3_region = args.s3_bucket, args.s3_region
@@ -51,4 +52,5 @@ rescue LoadError
   # no rspec available
 end
 
+desc "Run spec tests"
 task :spec => 'ci:setup:rspec'

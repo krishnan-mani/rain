@@ -76,13 +76,12 @@ module Stack
   end
 
   def update_action!
+    client = Aws::CloudFormation::Client.new(region: region)
     if exists?
       update!
-      client = Aws::CloudFormation::Client.new(region: region)
       client.wait_until(:stack_update_complete, stack_name: stack_name)
     else
       create!
-      client = Aws::CloudFormation::Client.new(region: region)
       client.wait_until(:stack_create_complete, stack_name: stack_name)
     end
   end
