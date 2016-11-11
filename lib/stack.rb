@@ -75,6 +75,12 @@ module Stack
     end
   end
 
+  def delete!
+    puts "Deleting stack #{stack_name}"
+    Aws::CloudFormation::Client.new(region: region).delete_stack(stack_name: stack_name)
+    puts "Deleted stack #{stack_name}"
+  end
+
   def update!
     options = {stack_name: stack_name}
     options.merge!(get_template_element)

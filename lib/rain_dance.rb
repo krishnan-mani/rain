@@ -21,6 +21,15 @@ class RainDance
     stacks.flatten.each { |stack| stack.process! }
   end
 
+  def delete_listed!
+    stacks = []
+    manifest["templates"].each do |template|
+      stack = get_stack_instance(File.join(@path, templates_path, template))
+      stacks.push(stack)
+    end
+    stacks.flatten.reverse!.each { |stack| stack.delete! }
+  end
+
   def get_stack_instance(template_path)
     stack_info = StackInfo.new(template_path)
     if stack_info.independent?

@@ -19,6 +19,13 @@ task :process_manifest, [:templates_folder_path, :s3_bucket, :s3_region] do |t, 
   rain_dance.do_jig!
 end
 
+desc "Delete multiple stacks listed in manifest file"
+task :delete_by_manifest, [:templates_folder_path] do |t, args|
+  templates_folder_path = args.templates_folder_path
+  rain_dance = RainDance.new(templates_folder_path)
+  rain_dance.delete_listed!
+end
+
 desc "process_for_context"
 task :process_for_context, [:artifacts_path, :context_name, :s3_bucket, :s3_region] do |t, args|
   path = args.artifacts_path
