@@ -48,9 +48,21 @@ module Stack
         create_action!
       when UPDATE_ACTION
         update_action!
+      when RECREATE_ACTION
+        recreate_action!
       else
         raise RainErrors::StackActionNotSupportedError, "Action: #{action}"
     end
+  end
+
+  def recreate_action!
+    client = Aws::CloudFormation::Client.new(region: region)
+    if exists?
+      delete!
+      client.wait_until(:stack_delete_complete, stack_name: stack_name)
+    end
+    create!
+    client.wait_until(:stack_create_complete, stack_name: stack_name)
   end
 
   def create_action!
