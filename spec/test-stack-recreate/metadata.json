@@ -1,0 +1,5 @@
+{
+  "name": "test-stack-recreate",
+  "region": "ap-south-1",
+  "action": "recreate"
+}
