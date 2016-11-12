@@ -1,0 +1,5 @@
+{
+  "name": "test-stack-update-policy",
+  "region": "ap-south-1",
+  "action": "create"
+}

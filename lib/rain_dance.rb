@@ -15,8 +15,8 @@ class RainDance
 
   def do_jig!
     stacks = []
-    manifest["templates"].each do |template|
-      stack = get_stack_instance(File.join(@path, templates_path, template), @opts.dup)
+    templates.each do |template|
+      stack = get_stack_instance(File.join(@path, templates_path), template, @opts.dup)
       stacks.push(stack)
     end
     stacks.flatten.each { |stack| stack.process! }
@@ -24,19 +24,25 @@ class RainDance
 
   def delete_listed!
     stacks = []
-    manifest["templates"].each do |template|
-      stack = get_stack_instance(File.join(@path, templates_path, template))
+    templates.each do |template|
+      stack = get_stack_instance(File.join(@path, templates_path), template)
       stacks.push(stack)
     end
     stacks.flatten.reverse!.each { |stack| stack.delete! }
   end
 
-  def get_stack_instance(template_path, options = {})
+  def template_name(template_element)
+    template_element.is_a?(Hash) ? template_element.keys[0] : template_element
+  end
+
+  def get_stack_instance(templates_path, template_element, options = {})
+    _name = template_name(template_element)
+    template_path = File.join(templates_path, _name)
     stack_info = StackInfo.new(template_path)
+
     if stack_info.independent?
       IndependentStack.new(template_path, options)
     else
-
       context_stacks = stack_info.contexts.collect do |context|
         ContextStack.new(template_path, context, options)
       end
@@ -51,6 +57,12 @@ class RainDance
 
   def load_manifest
     @manifest = YAML.load_file(File.join(@path, 'manifest.yml'))
+  end
+
+  def templates
+    manifest["templates"].collect do |el|
+      el.is_a?(Hash) ? el.keys[0] : el
+    end
   end
 
   def manifest

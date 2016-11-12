@@ -1,4 +1,7 @@
 path: templates
 templates:
-  - abc
+  - abc:
+      environments:
+        - pqr
+        - stu
   - def

@@ -128,6 +128,7 @@ module Stack
     options.merge!(get_template_element)
     options.merge!("parameters": get_parameters) if has_parameters?
     options.merge!("capabilities": get_capabilities)
+    options.merge!(get_stack_policy_element)
     options.merge!(on_failure: on_failure) if on_failure
 
     puts "Creating stack #{stack_name}"
@@ -138,6 +139,15 @@ module Stack
 
   def template_key
     "#{stack_name}/template.json"
+  end
+
+  def get_stack_policy_element
+    update_policy_path = File.join(@path, 'update-policy.json')
+    if FileTest.exist?(update_policy_path)
+      {stack_policy_body: File.read(update_policy_path).to_s}
+    else
+      {}
+    end
   end
 
   def get_template_element

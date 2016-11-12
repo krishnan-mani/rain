@@ -1,0 +1,10 @@
+{
+  "Resources": {
+    "bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "foo"
+      }
+    }
+  }
+}
