@@ -28,11 +28,10 @@ module Stack
   end
 
   def exists?
-    # client = Aws::CloudFormation::Client.new(region: region)
-    # stack_resource = Aws::CloudFormation::Resource.new(client: client)
-    # stack = stack_resource.stack(stack_name)
-    # stack.exists?
-    true
+    client = Aws::CloudFormation::Client.new(region: region)
+    stack_resource = Aws::CloudFormation::Resource.new(client: client)
+    stack = stack_resource.stack(stack_name)
+    stack.exists?
   end
 
   def action
@@ -119,8 +118,8 @@ module Stack
     options.merge!(change_set_name: _change_set_name)
 
     puts "Creating change set #{_change_set_name} against stack #{stack_name}"
-    # cf = Aws::CloudFormation::Client.new(region: region)
-    # cf.create_change_set(options)
+    cf = Aws::CloudFormation::Client.new(region: region)
+    cf.create_change_set(options)
     puts "Created change set #{_change_set_name} against stack #{stack_name}"
   end
 
@@ -167,10 +166,9 @@ module Stack
   end
 
   def get_capabilities
-    # client = Aws::CloudFormation::Client.new(region: region)
-    # response = client.validate_template(get_template_element)
-    # response.capabilities
-    []
+    client = Aws::CloudFormation::Client.new(region: region)
+    response = client.validate_template(get_template_element)
+    response.capabilities
   end
 
   def region

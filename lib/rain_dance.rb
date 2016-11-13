@@ -67,11 +67,14 @@ class RainDance
     @manifest = YAML.load_file(_manifest_path)
   end
 
+  def template_names
+    templates.collect do |el|
+      el.is_a?(Hash) ? el.keys[0] : el
+    end
+  end
+
   def templates
     manifest["templates"]
-    # manifest["templates"].collect do |el|
-    #   el.is_a?(Hash) ? el.keys[0] : el
-    # end
   end
 
   def manifest
