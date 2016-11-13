@@ -15,11 +15,11 @@ parser = OptionParser.new do |opts|
     options[:manifest_file] = file
   end
 
-  opts.on('-s3bucket', '--s3-bucket bucket', 'Specify an S3 bucket and S3 region') do |bucket|
+  opts.on('-b', '--s3-bucket bucket', 'Specify an S3 bucket and S3 region') do |bucket|
     options[:s3_bucket] = bucket
   end
 
-  opts.on('-s3region', '--s3-region region', 'Specify an S3 bucket and S3 region') do |region|
+  opts.on('-r', '--s3-region region', 'Specify an S3 bucket and S3 region') do |region|
     options[:s3_region] = region
   end
 
