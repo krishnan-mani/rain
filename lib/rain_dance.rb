@@ -62,11 +62,19 @@ class RainDance
   end
 
   def manifest_contexts(template_element)
-    template_element.is_a?(Hash) ? template_element.values[0]["contexts"]: []
+    if template_element.is_a?(Hash)
+      template_element.values[0]["contexts"] || []
+    else
+      []
+    end
   end
 
   def manifest_environments(template_element)
-    template_element.is_a?(Hash) ? template_element.values[0]["environments"] : []
+    if template_element.is_a?(Hash)
+      template_element.values[0]["environments"] || []
+    else
+      []
+    end
   end
 
   def load_manifest
