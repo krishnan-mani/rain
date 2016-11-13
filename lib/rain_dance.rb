@@ -7,8 +7,9 @@ require_relative 'stack_info'
 
 class RainDance
 
-  def initialize(artifacts_path, options = {})
+  def initialize(artifacts_path, manifest_path = nil, options = {})
     @path = artifacts_path
+    @manifest_path = manifest_path
     @opts = options
     load_manifest
   end
@@ -47,7 +48,9 @@ class RainDance
         ContextStack.new(template_path, context, options)
       end
 
-      environment_stacks = stack_info.environments.collect do |environment|
+      environments_from_manifest = manifest_environments(template_element)
+      selected_environments = environments_from_manifest.empty? ? stack_info.environments : environments_from_manifest
+      environment_stacks = selected_environments.collect do |environment|
         EnvironmentStack.new(template_path, environment, options)
       end
 
@@ -55,14 +58,20 @@ class RainDance
     end
   end
 
+  def manifest_environments(template_element)
+    template_element.is_a?(Hash) ? template_element.values[0]["environments"] : []
+  end
+
   def load_manifest
-    @manifest = YAML.load_file(File.join(@path, 'manifest.yml'))
+    _manifest_path = @manifest_path || File.join(@path, 'manifest.yml')
+    @manifest = YAML.load_file(_manifest_path)
   end
 
   def templates
-    manifest["templates"].collect do |el|
-      el.is_a?(Hash) ? el.keys[0] : el
-    end
+    manifest["templates"]
+    # manifest["templates"].collect do |el|
+    #   el.is_a?(Hash) ? el.keys[0] : el
+    # end
   end
 
   def manifest
