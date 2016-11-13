@@ -44,7 +44,10 @@ class RainDance
     if stack_info.independent?
       IndependentStack.new(template_path, options)
     else
-      context_stacks = stack_info.contexts.collect do |context|
+
+      contexts_from_manifest = manifest_contexts(template_element)
+      selected_contexts = contexts_from_manifest.empty? ? stack_info.contexts : contexts_from_manifest
+      context_stacks = selected_contexts.collect do |context|
         ContextStack.new(template_path, context, options)
       end
 
@@ -56,6 +59,10 @@ class RainDance
 
       context_stacks.concat(environment_stacks)
     end
+  end
+
+  def manifest_contexts(template_element)
+    template_element.is_a?(Hash) ? template_element.values[0]["contexts"]: []
   end
 
   def manifest_environments(template_element)

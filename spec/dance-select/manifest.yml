@@ -2,6 +2,8 @@ path: templates
 templates:
   - abc:
   - def:
+      contexts:
+        - karjakin
       environments:
         - pqr
         - stu

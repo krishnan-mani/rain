@@ -5,6 +5,10 @@
     "xyz": {
       "region": "ap-south-1",
       "action": "create"
+    },
+    "karjakin": {
+      "region": "ap-south-1",
+      "action": "create"
     }
   },
   "environments": {

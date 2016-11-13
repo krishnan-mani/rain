@@ -1,4 +1,5 @@
 - list all change sets
+- region override
 
 - support custom manifest
 - support listed environments and contexts in manifest

@@ -10,13 +10,13 @@ RSpec.describe RainDance do
   client = Aws::CloudFormation::Client.new(region: 'ap-south-1')
 
   before(:each) do
-    ['abc-ap-south-1', 'def-context-xyz-ap-south-1', 'def-environment-pqr-ap-south-1', 'def-environment-stu-ap-south-1', 'def-environment-jkl-ap-south-1'].each do |stack_name|
+    ['abc-ap-south-1', 'def-context-karjakin-ap-south-1', 'def-environment-pqr-ap-south-1', 'def-environment-stu-ap-south-1', 'def-environment-jkl-ap-south-1'].each do |stack_name|
       delete_stack(stack_name, client)
     end
   end
 
   after(:each) do
-    ['abc-ap-south-1', 'def-context-xyz-ap-south-1', 'def-environment-pqr-ap-south-1', 'def-environment-stu-ap-south-1', 'def-environment-jkl-ap-south-1'].each do |stack_name|
+    ['abc-ap-south-1', 'def-context-karjakin-ap-south-1', 'def-environment-pqr-ap-south-1', 'def-environment-stu-ap-south-1', 'def-environment-jkl-ap-south-1'].each do |stack_name|
       delete_stack(stack_name, client)
     end
   end
@@ -27,19 +27,22 @@ RSpec.describe RainDance do
 
     stack_resource = Aws::CloudFormation::Resource.new(client: client)
 
-    _stack = stack_resource.stack_name('abc-ap-south-1')
+    _stack = stack_resource.stack('abc-ap-south-1')
     expect(_stack.stack_status).to match /CREATE/
 
-    _stack = stack_resource.stack_name('def-context-xyz-ap-south-1')
+    _stack = stack_resource.stack('def-context-karjakin-ap-south-1')
     expect(_stack.stack_status).to match /CREATE/
 
-    _stack = stack_resource.stack_name('def-environment-pqr-ap-south-1')
+    _stack = stack_resource.stack('def-environment-pqr-ap-south-1')
     expect(_stack.stack_status).to match /CREATE/
 
-    _stack = stack_resource.stack_name('def-environment-stu-ap-south-1')
+    _stack = stack_resource.stack('def-environment-stu-ap-south-1')
     expect(_stack.stack_status).to match /CREATE/
 
-    _stack = stack_resource.stack_name('def-environment-jkl-ap-south-1')
+    _stack = stack_resource.stack('def-environment-jkl-ap-south-1')
+    expect(stack.exists?).to be false
+
+    _stack = stack_resource.stack('def-context-xyz-ap-south-1')
     expect(stack.exists?).to be false
 
   end
