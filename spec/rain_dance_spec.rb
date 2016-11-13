@@ -13,7 +13,7 @@ RSpec.describe RainDance do
     expect(manifest["templates"][0]["abc"]["environments"]).to eql(['pqr', 'stu'])
   end
 
-  it 'lists stacks from manifest files', focus: true do
+  it 'lists stacks from manifest files' do
     p dance.templates
     expect(dance.template_names).to eql(['abc', 'def'])
   end
