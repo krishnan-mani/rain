@@ -1,7 +1,9 @@
 - list all change sets
 - region override
 
-- support custom manifest
+- reporting outstanding change-sets
+- independent stack should have region in its name?
+- sync template from current stack
 - support listed environments and contexts in manifest
 - support update policy for contexts and environments
 - support nested stack
