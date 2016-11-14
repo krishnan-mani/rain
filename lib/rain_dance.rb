@@ -9,7 +9,7 @@ class RainDance
 
   def initialize(artifacts_path, manifest_path = nil, options = {})
     @path = artifacts_path
-    @manifest_path = manifest_path
+    @manifest_file_name = manifest_path
     @opts = options
     load_manifest
   end
@@ -78,7 +78,7 @@ class RainDance
   end
 
   def load_manifest
-    _manifest_path = @manifest_path || File.join(@path, 'manifest.yml')
+    _manifest_path = @manifest_file_name.nil? ? File.join(@path, 'manifest.yml') : File.join(@path, @manifest_file_name)
     @manifest = YAML.load_file(_manifest_path)
   end
 

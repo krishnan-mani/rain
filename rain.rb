@@ -36,10 +36,10 @@ manifest_file_name = options[:manifest_file]
 artifacts_path = options[:artifacts_path]
 
 manifest_path = manifest_file_name.nil? ? File.join(artifacts_path, 'manifest.yml') : File.join(artifacts_path, manifest_file_name)
-raise ArgumentError, "missing manifest path or manifest file" unless FileTest.exist?(manifest_path)
+p manifest_path
 
 app_options = {s3Location: options[:s3_bucket], s3Region: options[:s3_region]}
 
 require_relative 'lib/rain_dance'
-dance = RainDance.new(options[:artifacts_path], options[:manifest_file], app_options)
+dance = RainDance.new(artifacts_path, manifest_file_name, app_options)
 dance.do_jig!
