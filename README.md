@@ -44,7 +44,7 @@ templates:
         - logs-bucket
         - artifacts-bucket
   - app-01-environments:
-      environments
+      environments:
         - development
         - qa
 ```
