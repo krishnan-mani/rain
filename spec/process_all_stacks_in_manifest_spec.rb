@@ -17,12 +17,6 @@ RSpec.describe RainDance do
     end
   end
 
-  after(:each) do
-    stack_names.each do |name|
-      delete_stack(name, client)
-    end
-  end
-
   it 'processes a template listed in the manifest' do
     dance.do_jig!
     stack_resource = Aws::CloudFormation::Resource.new(client: client)
