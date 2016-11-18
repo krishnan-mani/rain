@@ -1,12 +1,16 @@
+- reorganise tests
+- update README.md
+- add HOW-TO.md
 - list all change sets
-- region override
-
 - reporting outstanding change-sets
+- region override
+- support nested stack
+- add logging
+
 - independent stack should have region in its name?
 - sync template from current stack
 - support listed environments and contexts in manifest
 - support update policy for contexts and environments
-- support nested stack
 
 - add init and configuration mechanism
 - configure notifications
