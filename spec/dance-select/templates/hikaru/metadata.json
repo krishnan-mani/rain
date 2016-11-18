@@ -1,26 +1,26 @@
 {
-  "name": "def",
+  "name": "hikaru",
   "hasParameters": true,
   "contexts": {
-    "xyz": {
+    "corus": {
       "region": "ap-south-1",
       "action": "create"
     },
-    "karjakin": {
+    "sinquefield": {
       "region": "ap-south-1",
       "action": "create"
     }
   },
   "environments": {
-    "pqr": {
+    "dev-amber": {
       "region": "ap-south-1",
       "action": "create"
     },
-    "stu": {
+    "dev-waz": {
       "region": "ap-south-1",
       "action": "create"
     },
-    "jkl": {
+    "dev-candidates": {
       "region": "ap-south-1",
       "action": "create"
     }

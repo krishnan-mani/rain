@@ -1,9 +1,9 @@
 path: templates
 templates:
-  - abc:
-  - def:
+  - caruana:
+  - hikaru:
       contexts:
-        - karjakin
+        - corus
       environments:
-        - pqr
-        - stu
+        - dev-amber
+        - dev-candidates

@@ -21,6 +21,7 @@ RSpec.describe IndependentStack do
 
     stack.process!
     response = client.list_change_sets(stack_name: stack_name)
+    p response.summaries
     expect(response.summaries.length).to eql 1
   end
 
