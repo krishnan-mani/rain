@@ -3,7 +3,7 @@ require_relative '../lib/environment_stack'
 base_path = File.dirname(__FILE__)
 stack_artifacts_path = File.join(base_path, 'test-stack-environment')
 
-RSpec.describe EnvironmentStack do
+RSpec.describe "process templates" do
 
   stack = EnvironmentStack.new(stack_artifacts_path, 'von')
 
@@ -18,7 +18,7 @@ RSpec.describe EnvironmentStack do
     cf.delete_stack(stack_name: stack_name)
   end
 
-  it 'creates the stack for the specified environment' do
+  it 'creates a stack for the specified environment' do
     stack.process!
     stack_resource = Aws::CloudFormation::Resource.new(client: cf)
     created_stack = stack_resource.stack(stack_name)

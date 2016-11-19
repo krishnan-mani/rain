@@ -1,6 +1,6 @@
 require_relative '../lib/independent_stack'
 
-RSpec.describe 'it copies stack artifacts' do
+RSpec.describe 'creating stacks' do
 
   my_bucket = get_artifacts_bucket
   artifacts_region = 'ap-south-1'
@@ -24,7 +24,7 @@ RSpec.describe 'it copies stack artifacts' do
     delete_stack(stack_name, cf)
   end
 
-  it 'copies the stack to a location in S3' do
+  it 'copies stack template to a location in S3' do
     expect(stack.metadata["copyToS3"]).to be true
     stack.create!
     cf.wait_until(:stack_create_complete, stack_name: stack_name)

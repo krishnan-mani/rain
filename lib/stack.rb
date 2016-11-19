@@ -89,7 +89,6 @@ module Stack
   def delete!
     puts "Deleting stack #{stack_name}"
     Aws::CloudFormation::Client.new(region: region).delete_stack(stack_name: stack_name)
-    puts "Deleted stack #{stack_name}"
   end
 
   def update!
@@ -101,7 +100,6 @@ module Stack
     puts "Updating stack #{stack_name}"
     cf = Aws::CloudFormation::Client.new(region: region)
     cf.update_stack(options)
-    puts "Updated stack #{stack_name}"
   end
 
   def change_set_name
@@ -120,7 +118,6 @@ module Stack
     puts "Creating change set #{_change_set_name} against stack #{stack_name}"
     cf = Aws::CloudFormation::Client.new(region: region)
     cf.create_change_set(options)
-    puts "Created change set #{_change_set_name} against stack #{stack_name}"
   end
 
   def create!
@@ -134,7 +131,6 @@ module Stack
     puts "Creating stack #{stack_name}"
     cf = Aws::CloudFormation::Client.new(region: region)
     cf.create_stack(options)
-    puts "Created stack #{stack_name}"
   end
 
   def template_key
