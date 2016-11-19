@@ -7,11 +7,7 @@ client = Aws::CloudFormation::Client.new(region: 'ap-south-1')
 
 stack_name = 'test-stack-change-set'
 
-RSpec.describe IndependentStack do
-
-  after(:each) do
-    delete_stack(stack_name, client)
-  end
+RSpec.describe 'process templates' do
 
   it 'for create action, a change-set is created for the stack if it exists' do
     stack.process!
@@ -21,8 +17,11 @@ RSpec.describe IndependentStack do
 
     stack.process!
     response = client.list_change_sets(stack_name: stack_name)
-    p response.summaries
     expect(response.summaries.length).to eql 1
+  end
+
+  after(:each) do
+    delete_stack(stack_name, client)
   end
 
 end

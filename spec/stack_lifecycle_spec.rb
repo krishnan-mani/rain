@@ -1,5 +1,6 @@
 require_relative '../lib/independent_stack'
 
+
 base_path = File.dirname(__FILE__)
 stack_artifacts_path = File.join(base_path, 'test-stack')
 

@@ -1,3 +1,5 @@
+require 'logger'
+
 require_relative 'stack'
 
 
@@ -8,8 +10,13 @@ class ContextStack
     @path = artifacts_folder_path
     @context_name = context_name
     @options = opts.dup
+    @logger = @options[:logger] || Logger.new(STDOUT)
     get_metadata
     @template = set_template(File.join(@path, 'template.json'))
+  end
+
+  def logger
+    @logger
   end
 
   def region

@@ -1,3 +1,5 @@
+require 'logger'
+
 require_relative 'stack'
 
 
@@ -7,10 +9,14 @@ class IndependentStack
   def initialize(artifacts_folder_path, opts = {})
     @path = artifacts_folder_path
     @options = opts.dup
+    @logger = @options[:logger] || Logger.new($stdout)
     get_metadata
     @template = set_template(File.join(@path, 'template.json'))
   end
 
+  def logger
+    @logger
+  end
 
   def stack_name
     name
