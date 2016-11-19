@@ -6,7 +6,7 @@ require_relative '../lib/rain_dance'
 artifacts_path = File.join(File.dirname(__FILE__), 'dance-delete')
 dance = RainDance.new(artifacts_path)
 
-RSpec.describe 'deleting stacks' do
+RSpec.describe 'deleting listed stacks' do
 
   client = Aws::CloudFormation::Client.new(region: 'ap-south-1')
 
@@ -19,7 +19,7 @@ RSpec.describe 'deleting stacks' do
     end
   end
 
-  it 'processes and deletes all stacks listed in the manifest (in the reverse order)' do
+  it 'removes stacks in the manifest' do
     dance.do_jig!
     stack_resource = Aws::CloudFormation::Resource.new(client: client)
     stack_names.each do |name|
