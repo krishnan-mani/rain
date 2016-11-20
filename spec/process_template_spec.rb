@@ -14,7 +14,6 @@ RSpec.describe "process templates" do
     client.wait_until(:stack_delete_complete, stack_name: stack_name)
 
     stack.process!
-
     client.wait_until(:stack_create_complete, stack_name: stack_name)
   end
   

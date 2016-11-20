@@ -14,10 +14,6 @@ RSpec.describe "process templates" do
     cf.delete_stack(stack_name: stack_name)
   end
 
-  after(:each) do
-    cf.delete_stack(stack_name: stack_name)
-  end
-
   it 'creates a stack for the specified environment' do
     stack.process!
     stack_resource = Aws::CloudFormation::Resource.new(client: cf)

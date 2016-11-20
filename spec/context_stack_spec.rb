@@ -3,7 +3,7 @@ require_relative '../lib/context_stack'
 base_path = File.dirname(__FILE__)
 stack_artifacts_path = File.join(base_path, 'test-stack-context')
 
-RSpec.describe "processing templates" do
+RSpec.describe "processing a template" do
 
   stack = ContextStack.new(stack_artifacts_path, 'foo')
 
