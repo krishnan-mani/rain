@@ -2,12 +2,12 @@
 
 require 'optparse'
 
-options = {}
 
-parser = OptionParser.new do |opts|
+options = {}
+OptionParser.new do |opts|
   opts.banner = "Usage: rain.rb [options]"
 
-  opts.on('-p', '--path path', 'Specify a filesystem path to the template artifacts') do |path|
+  opts.on('-p', '--path PATH', 'Specify a filesystem path to the template artifacts') do |path|
     options[:artifacts_path] = path
   end
 
@@ -27,13 +27,12 @@ parser = OptionParser.new do |opts|
     puts opts
     exit
   end
+end.parse!
 
-end
+raise OptionParser::MissingArgument, "-p /path/to/template/artifacts" if options[:artifacts_path].nil?
 
-parser.parse!
-
-manifest_file_name = options[:manifest_file]
 artifacts_path = options[:artifacts_path]
+manifest_file_name = options[:manifest_file]
 
 app_options = {s3Location: options[:s3_bucket], s3Region: options[:s3_region]}
 
