@@ -7,7 +7,7 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: rain.rb [options]"
 
-  opts.on('-p', '--path PATH', 'Specify a filesystem path to the template artifacts') do |path|
+  opts.on('-p', '--path PATH', '(REQUIRED) Specify a filesystem path to the template artifacts') do |path|
     options[:artifacts_path] = path
   end
 
