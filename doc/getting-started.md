@@ -1,7 +1,7 @@
 ### Pre-requisites
 
 - ruby
-- (optional) using (https://rvm.io)[rvm]
+- (optional) using [https://rvm.io](rvm)
 
 ```bash
 $ rvm use --create 2.3.1@rain
