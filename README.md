@@ -1,3 +1,7 @@
+
+- Getting started: (doc/getting-started.md)["doc/getting-started.md"]
+- Terminology: (doc/terminology.md)["doc/terminology.md"]
+
 ### Features
 
 - Process any number of templates to create and maintain multiple stacks
