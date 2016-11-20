@@ -13,15 +13,11 @@ RSpec.describe 'creating stacks' do
 
   s3 = Aws::S3::Client.new(region: artifacts_region)
   cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
+
   before(:each) do
     cleanup(s3, my_bucket)
     delete_stack(stack_name, cf)
     cf.wait_until(:stack_delete_complete, stack_name: stack_name)
-  end
-
-  after(:each) do
-    cleanup(s3, my_bucket)
-    delete_stack(stack_name, cf)
   end
 
   it 'copies stack template to a location in S3' do
@@ -38,4 +34,10 @@ RSpec.describe 'creating stacks' do
     first_key = response.contents[0].key
     expect(first_key).to eql prefix
   end
+
+  after(:each) do
+    cleanup(s3, my_bucket)
+    delete_stack(stack_name, cf)
+  end
+
 end

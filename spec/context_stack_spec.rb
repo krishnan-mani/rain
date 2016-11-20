@@ -3,24 +3,21 @@ require_relative '../lib/context_stack'
 base_path = File.dirname(__FILE__)
 stack_artifacts_path = File.join(base_path, 'test-stack-context')
 
-RSpec.describe ContextStack do
+RSpec.describe "processing templates" do
 
   stack = ContextStack.new(stack_artifacts_path, 'foo')
 
-  cf = Aws::CloudFormation::Client.new(region: 'ap-south-1')
+  client = Aws::CloudFormation::Client.new(region: 'ap-south-1')
   stack_name = 'test-stack-context-context-foo-ap-south-1'
 
   before(:each) do
-    cf.delete_stack(stack_name: stack_name)
+    client.delete_stack(stack_name: stack_name)
+    client.wait_until(:stack_delete_complete, stack_name: stack_name)
   end
 
-  after(:each) do
-    cf.delete_stack(stack_name: stack_name)
-  end
-
-  it 'creates the stack for the specified context' do
+  it 'creates a stack for the specified context' do
     stack.process!
-    stack_resource = Aws::CloudFormation::Resource.new(client: cf)
+    stack_resource = Aws::CloudFormation::Resource.new(client: client)
     created_stack = stack_resource.stack(stack_name)
     expect(created_stack.stack_status).to match /CREATE/
   end
