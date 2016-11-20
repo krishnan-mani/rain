@@ -87,6 +87,7 @@ module Stack
   end
 
   def logger
+    raise "instances to implement #logger"
   end
 
   def delete!

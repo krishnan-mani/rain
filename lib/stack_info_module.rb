@@ -32,12 +32,11 @@ module StackInfoModule
   end
 
   def metadata
-    @metadata.dup
+    raise "instances to implement #metadata"
   end
 
   def get_metadata
-    metadata_file = File.read(File.join(@path, 'metadata.json'))
-    @metadata = JSON.parse(metadata_file)
+    raise "instances to implement #get_metadata"
   end
 
 end

@@ -39,4 +39,12 @@ class ContextStack
     get_parameters_from_path(File.join(@path, 'contexts', @context_name, region, 'parameters.json'))
   end
 
+  def metadata
+    @metadata.dup
+  end
+
+  def get_metadata
+    metadata_file = File.read(File.join(@path, 'metadata.json'))
+    @metadata = JSON.parse(metadata_file)
+  end
 end
