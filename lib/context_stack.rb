@@ -6,12 +6,14 @@ require_relative 'stack'
 class ContextStack
   include Stack
 
+  attr_reader :metadata
+
   def initialize(artifacts_folder_path, context_name, opts = {})
     @path = artifacts_folder_path
     @context_name = context_name
     @options = opts.dup
     @logger = @options[:logger] || Logger.new(STDOUT)
-    get_metadata
+    read_metadata
     @template = set_template(File.join(@path, 'template.json'))
   end
 
@@ -39,12 +41,13 @@ class ContextStack
     get_parameters_from_path(File.join(@path, 'contexts', @context_name, region, 'parameters.json'))
   end
 
-  def metadata
-    @metadata.dup
+  def read_metadata
+    metadata_file = File.read(File.join(@path, 'metadata.json'))
+    set_metadata(JSON.parse(metadata_file))
   end
 
-  def get_metadata
-    metadata_file = File.read(File.join(@path, 'metadata.json'))
-    @metadata = JSON.parse(metadata_file)
+  def set_metadata(md)
+    @metadata = md.dup
   end
+
 end

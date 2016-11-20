@@ -35,8 +35,12 @@ module StackInfoModule
     raise "instances to implement #metadata"
   end
 
-  def get_metadata
-    raise "instances to implement #get_metadata"
+  def read_metadata
+    raise "instances to implement #read_metadata"
+  end
+
+  def set_metadata(md)
+    raise "instances to implement #set_metadata(md)"
   end
 
 end
