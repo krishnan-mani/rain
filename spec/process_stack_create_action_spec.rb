@@ -11,7 +11,7 @@ stack = IndependentStack.new(stack_artifacts_path)
 client = Aws::CloudFormation::Client.new(region: 'ap-south-1')
 stack_resource = Aws::CloudFormation::Resource.new(client: client)
 
-RSpec.describe 'processing a template' do
+RSpec.describe 'process a template' do
 
   it 'creates a stack for the stack create action, when there is none' do
     client.delete_stack(stack_name: stack_name)

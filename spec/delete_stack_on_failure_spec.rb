@@ -1,6 +1,6 @@
 require_relative '../lib/independent_stack'
 
-RSpec.describe IndependentStack do
+RSpec.describe "process a template" do
 
   base_name = File.dirname(__FILE__)
   stack_name = 'test-stack-delete-on-failure'

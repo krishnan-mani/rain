@@ -107,7 +107,6 @@ end
 
 def delete_stack(stack_name, client)
   client.delete_stack({stack_name: stack_name})
-  client.wait_until(:stack_delete_complete, stack_name: stack_name)
 end
 
 require 'securerandom'
@@ -116,6 +115,8 @@ def get_artifacts_bucket
   artifacts_bucket = "artifacts-workshop"
   "#{artifacts_bucket}-#{SecureRandom.random_number(10)}"
 end
+
+#TODO: cleanup objects in bucket
 
 def cleanup(client, bucket)
   begin
