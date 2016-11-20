@@ -1,21 +1,14 @@
-- reorganise tests
-- update README.md
-- add HOW-TO.md
-- list all change sets
-- reporting outstanding change-sets
-- region override
-- support nested stack
-- add logging
 
-- independent stack should have region in its name?
+- list pending change sets
+- region override
+- support nested stacks
 - sync template from current stack
 - support listed environments and contexts in manifest
 - support update policy for contexts and environments
-
 - add init and configuration mechanism
 - configure notifications
 - Handle stack updates error: Aws::CloudFormation::Errors::ValidationError: No updates are to be performed
-- add :client_token for idempotence (use commit hash)
-- generate parameter information
+- add :client_token for idempotence (use commit hash?)
+- generate parameter stub by inspection of template
 - accept either JSON or YAML formats
 - factor out AWS operations into a provider, use mocking
