@@ -1,5 +1,5 @@
 
-- list pending change sets
+- list pending change sets (WIP)
 - region override
 - support nested stacks
 - sync template from current stack

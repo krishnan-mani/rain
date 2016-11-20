@@ -2,7 +2,6 @@ require_relative '../lib/independent_stack'
 
 base_path = File.dirname(__FILE__)
 stack_artifacts_path = File.join(base_path, 'test-stack-change-set')
-stack = IndependentStack.new(stack_artifacts_path)
 client = Aws::CloudFormation::Client.new(region: 'ap-south-1')
 
 
@@ -16,6 +15,7 @@ RSpec.describe 'process a template' do
   end
 
   it 'for create action, a change-set is created for the stack if it already exists' do
+    stack = IndependentStack.new(stack_artifacts_path)
     stack.process!
     client.wait_until(:stack_create_complete, stack_name: stack_name)
 

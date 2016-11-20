@@ -94,6 +94,11 @@ module Stack
     Aws::CloudFormation::Client.new(region: region).delete_stack(stack_name: stack_name)
   end
 
+  def list_change_sets
+    logger.info "Retrieving change sets for #{stack_name}"
+    Aws::CloudFormation::Client.new(region: region).list_change_sets(stack_name: stack_name).summaries
+  end
+
   def update!
     options = {stack_name: stack_name}
     options.merge!(get_template_element)
