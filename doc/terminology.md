@@ -1,0 +1,3 @@
+- manifest
+- metadata
+- stack action
