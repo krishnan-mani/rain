@@ -1,10 +1,10 @@
 - Organize your templates for CloudFormation in a folder
 
 ```bash
-$ mkdir -p examples/templates/s3
+$ mkdir -p examples/my_templates/s3
 ```
 
-- Describe the template using a metadata.json file.
+- Describe the template using a 'metadata.json' file.
 
 ```json
 {
@@ -14,7 +14,7 @@ $ mkdir -p examples/templates/s3
 }
 ```
 
-- Add the CloudFormation template, name it "template.json"
+- Add the CloudFormation template, name it 'template.json'
 
 ```json
 {
@@ -27,6 +27,20 @@ $ mkdir -p examples/templates/s3
 ```
 
 - Create a manifest.yml to list the templates to be processed
+
+```yml
+path: my_templates
+templates:
+  - s3
+```
+
+- Process the templates using 'rain'
+
+```bash
+$ ./rain.rb -d examples
+```
+
+- Add more templates, and enumerate the ones to be processed
 
 ```yml
 path: evolution
