@@ -1,26 +1,32 @@
+- Organize your templates for CloudFormation in a folder
 
-- Describe each template using a metadata.json file.
+```bash
+$ mkdir -p examples/templates/s3
+```
+
+- Describe the template using a metadata.json file.
 
 ```json
 {
-  "name": "def",
-  "hasParameters": true,
-  "contexts": {
-    "xyz": {
-      "region": "ap-south-1",
-      "action": "create"
-    }
-  },
-  "environments": {
-    "pqr": {
-      "region": "ap-south-1",
-      "action": "create"
+  "name": "s3",
+  "region": "ap-south-1",
+  "action": "create"
+}
+```
+
+- Add the CloudFormation template, name it "template.json"
+
+```json
+{
+  "Resources": {
+    "bucket": {
+      "Type": "AWS::S3::Bucket"
     }
   }
 }
 ```
 
-- Describe a list of templates to be processed using a manifest.yml file
+- Create a manifest.yml to list the templates to be processed
 
 ```yml
 path: evolution
@@ -34,4 +40,8 @@ templates:
       environments:
         - development
         - qa
+```
+
+```
+$ tree -L 3 examples/
 ```
