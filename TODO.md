@@ -1,4 +1,5 @@
 
+- create gem
 - list pending change sets (WIP)
 - region override
 - support nested stacks

@@ -1,11 +1,11 @@
 ### Features
 
-- Process any number of templates to create and maintain multiple stacks
-- For each template, create one stack, or multiple stacks identified by "context" and by "environment" from a single template
-  - A "context" is an instance of a stack (with its own parameters and behaviour). For e.g., a stack that is used to manage a DNS domain can be re-used with multiple DNS domains, each represented by a "context"
-  - An "environment" is also an instance of a stack (with its own parameters and behaviour). For e.g., a "dev", "qa", and "live" environments
-- The entire set of actions on stacks in CloudFormation over the life-cycle of a stack, including:
+- Process any number of CloudFormation templates to create and maintain multiple CloudFormation stacks across AWS regions
+- Support the entire set of life-cycle actions on stacks in CloudFormation, including:
   - 'create-stack', 'update-stack', 'create-change-set', and 'delete-stack'
+- For each template, maintain one stack, or multiple stacks identified by "contexts" and/or by "environments", all from a single template
+  - A "context" is a stack with its own parameters and behaviour. For e.g., a stack used to manage a DNS domain can be re-used with multiple DNS domains, each identified by an independent "context".
+  - An "environment" is an instance of a stack with its own parameters and behaviour. For e.g., stacks for "dev", "qa", and "live" environments for an application in Elastic Beanstalk.
 - Utility features:
   - upload template to S3
-  - discover and supply capabilities required for a stack in CloudFormation
+  - discover and supply capabilities required for a stack in CloudFormation, etc.
