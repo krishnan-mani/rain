@@ -10,6 +10,10 @@
   - upload template to S3
   - discover and supply capabilities required for a stack in CloudFormation, etc.
 
+### Watch me!
+
+![Getting started](/doc/getting-started-asciicast.gif)
+
 ### Coming soon
 
 - gem for use as a library
