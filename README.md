@@ -12,6 +12,8 @@
 
 ### Watch me!
 
+- Getting started
+
 ![Getting started](/doc/getting-started-asciicast.gif)
 
 ### Coming soon...
