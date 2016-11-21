@@ -188,6 +188,10 @@ module Stack
     metadata["name"]
   end
 
+  def stack_name
+    name
+  end
+
   def has_parameters?
     metadata["hasParameters"]
   end

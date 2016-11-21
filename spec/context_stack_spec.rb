@@ -8,7 +8,7 @@ RSpec.describe "process a template" do
   stack = ContextStack.new(stack_artifacts_path, 'foo')
 
   client = Aws::CloudFormation::Client.new(region: 'ap-south-1')
-  stack_name = 'test-stack-context-context-foo-ap-south-1'
+  stack_name = 'test-stack-context-context-foo'
 
   before(:each) do
     client.delete_stack(stack_name: stack_name)

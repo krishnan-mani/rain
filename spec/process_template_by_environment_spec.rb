@@ -8,7 +8,7 @@ stack_resource = Aws::CloudFormation::Resource.new(client: client)
 RSpec.describe "process template by environment" do
 
   stack = EnvironmentStack.new(stack_artifacts_path, 'von')
-  stack_name = 'test-stack-environment-environment-von-ap-south-1'
+  stack_name = 'test-stack-environment-environment-von'
 
   before(:each) do
     client.delete_stack(stack_name: stack_name)

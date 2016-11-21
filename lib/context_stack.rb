@@ -34,7 +34,7 @@ class ContextStack
   end
 
   def stack_name
-    "#{name}#{SEPARATOR}context#{SEPARATOR}#{@context_name}#{SEPARATOR}#{region}"
+    "#{name}#{SEPARATOR}context#{SEPARATOR}#{@context_name}"
   end
 
   def get_parameters

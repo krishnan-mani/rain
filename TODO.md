@@ -4,7 +4,7 @@
 - support nested stacks
 - sync template from current stack
 - support listed environments and contexts in manifest
-- support update policy for contexts and environments
+- support update policy for contexts and environments, in the most general case
 - add init and configuration mechanism
 - configure notifications
 - Handle stack updates error: Aws::CloudFormation::Errors::ValidationError: No updates are to be performed

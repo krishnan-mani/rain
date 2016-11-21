@@ -20,10 +20,6 @@ class IndependentStack
     @logger
   end
 
-  def stack_name
-    name
-  end
-
   def get_parameters
     get_parameters_from_path(File.join(@path, 'parameters.json'))
   end

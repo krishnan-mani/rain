@@ -34,7 +34,7 @@ class EnvironmentStack
   end
 
   def stack_name
-    "#{name}#{SEPARATOR}environment#{SEPARATOR}#{@environment_name}#{SEPARATOR}#{region}"
+    "#{name}#{SEPARATOR}environment#{SEPARATOR}#{@environment_name}"
   end
 
   def get_parameters
