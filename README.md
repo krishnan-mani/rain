@@ -14,7 +14,7 @@
 
 ![Getting started](/doc/getting-started-asciicast.gif)
 
-### Coming soon
+### Coming soon...
 
 - gem for use as a library
 - support for stack policy
