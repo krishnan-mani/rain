@@ -12,7 +12,6 @@ $ mkdir -p examples/my_templates/s3
   "action": "create"
 }
 ```
-
 - Add the CloudFormation template, name it 'template.json'
 
 ```json
@@ -45,9 +44,17 @@ examples/
 - Process the templates using 'rain'
 
 ```bash
-$ ./rain.rb -d /path/to/folder/containing/templates/and/manifest
+$ rvm use 2.3.1@rain
+$ ./rain.rb -h
+Usage: rain.rb [options]
+    -p, --path PATH                  (REQUIRED) Specify a filesystem path to the template artifacts
+    -f, --file manifest-file         Specify a manifest file
+    -b, --s3-bucket bucket           Specify an S3 bucket and S3 region
+    -r, --s3-region region           Specify an S3 bucket and S3 region
+    -h, --help                       Display help
+$ ./rain.rb -p /path/to/folder/containing/templates/and/manifest
 ```
-- Add more templates, and enumerate the ones to be processed
+- Add more templates, and enumerate the ones to be processed in the manifest
 
 ```yml
 path: evolution
