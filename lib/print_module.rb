@@ -13,4 +13,14 @@ module PrintModule
     ].join("\n")
   end
 
+  def self.print_parameters(parameters)
+    parameters.collect { |param|
+      "{\"ParameterKey\":\"#{param.parameter_key}\",\"ParameterValue\":\"#{get_parameter_value(param)}\"}"
+    }
+  end
+
+  def self.get_parameter_value(parameter)
+    parameter.default_value || "REPLACE-ME-#{parameter.parameter_key}"
+  end
+
 end

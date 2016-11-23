@@ -170,6 +170,12 @@ module Stack
     }
   end
 
+  def describe_parameters
+    client = Aws::CloudFormation::Client.new(region: region)
+    response = client.validate_template(get_template_element)
+    response.parameters
+  end
+
   def get_capabilities
     client = Aws::CloudFormation::Client.new(region: region)
     response = client.validate_template(get_template_element)

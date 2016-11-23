@@ -1,0 +1,6 @@
+{
+  "name": "test-stack-generate-parameters-stub",
+  "hasParameters": true,
+  "region": "ap-south-1",
+  "action": "create"
+}

@@ -1,0 +1,32 @@
+{
+  "Parameters": {
+    "bar": {
+      "Description": "Some foo",
+      "Type": "String"
+    },
+    "VersioningStatus": {
+      "Type": "String",
+      "Default": "Enabled"
+    }
+  },
+  "Resources": {
+    "bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "VersioningConfiguration": {
+          "Status": {
+            "Ref": "VersioningStatus"
+          }
+        },
+        "Tags": [
+          {
+            "Key": "foo",
+            "Value": {
+              "Ref": "bar"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
