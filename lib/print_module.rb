@@ -14,9 +14,10 @@ module PrintModule
   end
 
   def self.print_parameters(parameters)
-    parameters.collect { |param|
+    parameters_str = parameters.collect { |param|
       "{\"ParameterKey\":\"#{param.parameter_key}\",\"ParameterValue\":\"#{get_parameter_value(param)}\"}"
-    }
+    }.join(",\n")
+    "[#{parameters_str}]"
   end
 
   def self.get_parameter_value(parameter)

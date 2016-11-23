@@ -10,8 +10,9 @@ describe "read a template" do
   it 'generates a stub file containing the required parameters' do
     stack = IndependentStack.new(artifacts_path)
     response = stack.generate_parameters_stub
-    expect(response.first).to match /VersioningStatus/
-    expect(response.last).to match /bar/
+    response_json = JSON.parse(response)
+    expect(response_json.first["ParameterKey"]).to match /VersioningStatus/
+    expect(response_json.last["ParameterKey"]).to match /bar/
   end
 
 end
