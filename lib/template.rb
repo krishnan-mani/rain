@@ -1,13 +1,3 @@
-module Template
-
-  def get_template_element
-  end
-
-  def template_needs_parameters?
-  end
-
-end
-
 require 'aws-sdk'
 
 class TemplateLocal
