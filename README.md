@@ -31,5 +31,6 @@
 
 ### About
 
+- [Install](doc/install.md)
 - [HOW-TO](doc/HOW-TO.md)
 - [Terminology](doc/terminology.md)
