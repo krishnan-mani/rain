@@ -9,7 +9,7 @@ dance = RainDance.new(artifacts_path)
 RSpec.describe 'process templates by manifest' do
 
   it 'lists stacks from manifest files' do
-    expect(dance.template_names).to eql(['abc', 'def'])
+    expect(dance.template_names).to eql(['test-rain-abc', 'test-rain-def'])
   end
 
   it 'reads the path to stacks' do
