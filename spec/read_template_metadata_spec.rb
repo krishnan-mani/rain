@@ -12,7 +12,7 @@ RSpec.describe 'read template metadata' do
   end
 
   it 'constructs a name for the realized stack based on the region' do
-    expect(info.name).to eql('abc')
+    expect(info.name).to eql('test-rain-abc')
   end
 
 end
