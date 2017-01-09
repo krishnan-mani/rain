@@ -24,6 +24,8 @@ RSpec.describe 'process a template' do
     FileUtils.copy(File.join(artifacts_path, 'updated-template.json'), File.join(artifacts_path, 'template.json'))
     stack.process!
 
+    client.wait_until(:change_set_create_complete, stack_name: stack_name)
+
     client_response = client.list_change_sets(stack_name: stack_name)
     expect(client_response.summaries.length).to eql 1
     listed_status = client_response.summaries[0].status
