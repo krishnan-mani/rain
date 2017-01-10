@@ -9,7 +9,7 @@ stack_resource = Aws::CloudFormation::Resource.new(client: client)
 
 RSpec.describe 'process templates by manifest' do
 
-  stack_names = ['test-rain-caruana', 'test-rain-hikaru-context-corus', 'test-rain-hikaru-environment-dev-amber', 'hikaru-environment-dev-candidates']
+  stack_names = ['test-rain-caruana', 'test-rain-hikaru-context-corus', 'test-rain-hikaru-environment-dev-amber', 'test-rain-hikaru-environment-dev-candidates']
 
   before(:each) do
     stack_names.each do |stack_name|
