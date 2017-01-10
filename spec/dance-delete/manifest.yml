@@ -1,4 +1,4 @@
 path: templates
 templates:
-  - rm-abc
-  - rm-def
+  - test-rain-rm-abc
+  - test-rain-rm-def
