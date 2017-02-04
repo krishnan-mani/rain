@@ -2,7 +2,7 @@ require 'logger'
 
 require_relative '../lib/print_module'
 require_relative 'stack'
-
+require_relative 'my_client'
 
 class IndependentStack
   include Stack
@@ -15,6 +15,10 @@ class IndependentStack
     @logger = @options[:logger] || Logger.new(STDOUT)
     read_metadata
     @template = set_template(File.join(@path, 'template.json'))
+  end
+
+  def client(config)
+    MyClient.new(config)
   end
 
   def logger

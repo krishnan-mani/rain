@@ -28,10 +28,7 @@ module Stack
   end
 
   def exists?
-    client = Aws::CloudFormation::Client.new(region: region)
-    stack_resource = Aws::CloudFormation::Resource.new(client: client)
-    stack = stack_resource.stack(stack_name)
-    stack.exists?
+    client(region: region).exists?(stack_name)
   end
 
   def action
@@ -104,7 +101,7 @@ module Stack
     options = {stack_name: stack_name}
     options.merge!(get_template_element)
     options.merge!("parameters": get_parameters) if has_parameters?
-    options.merge!("capabilities": get_capabilities)
+    options.merge!("capabilities": capabilities)
 
     logger.info "Updating stack #{stack_name}"
     cf = Aws::CloudFormation::Client.new(region: region)
@@ -119,7 +116,7 @@ module Stack
     options = {stack_name: stack_name}
     options.merge!(get_template_element)
     options.merge!("parameters": get_parameters) if has_parameters?
-    options.merge!("capabilities": get_capabilities)
+    options.merge!("capabilities": capabilities)
 
     _change_set_name = change_set_name
     options.merge!(change_set_name: _change_set_name)
@@ -133,13 +130,13 @@ module Stack
     options = {stack_name: stack_name}
     options.merge!(get_template_element)
     options.merge!("parameters": get_parameters) if has_parameters?
-    options.merge!("capabilities": get_capabilities)
+    options.merge!("capabilities": capabilities)
     options.merge!(get_stack_policy_element)
     options.merge!(on_failure: on_failure) if on_failure
 
     logger.info "Creating stack #{stack_name}"
-    cf = Aws::CloudFormation::Client.new(region: region)
-    cf.create_stack(options)
+    # cf = Aws::CloudFormation::Client.new(region: region)
+    client(region: region).create_stack(options)
   end
 
   def template_key
@@ -176,10 +173,11 @@ module Stack
     response.parameters
   end
 
-  def get_capabilities
-    client = Aws::CloudFormation::Client.new(region: region)
-    response = client.validate_template(get_template_element)
-    response.capabilities
+  def capabilities
+    # client = Aws::CloudFormation::Client.new(region: region)
+    # response = client.validate_template(get_template_element)
+    # response.capabilities
+    metadata["capabilities"]
   end
 
   def region
@@ -200,6 +198,10 @@ module Stack
 
   def has_parameters?
     metadata["hasParameters"]
+  end
+
+  def client(config)
+    raise "instances to implement #client(config)"
   end
 
 end
