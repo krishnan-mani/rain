@@ -1,4 +1,5 @@
 
+- supply only specified capabilities
 - create gem
 - list pending change sets (WIP)
 - region override
