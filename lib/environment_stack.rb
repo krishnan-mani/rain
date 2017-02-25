@@ -17,6 +17,10 @@ class EnvironmentStack
     @template = set_template(File.join(@path, 'template.json'))
   end
 
+  def client(config)
+    MyClient.new(config)
+  end
+
   def logger
     @logger
   end

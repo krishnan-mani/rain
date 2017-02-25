@@ -1,6 +1,7 @@
 require 'logger'
 
 require_relative 'stack'
+require_relative 'my_client'
 
 
 class ContextStack
@@ -15,6 +16,10 @@ class ContextStack
     @logger = @options[:logger] || Logger.new(STDOUT)
     read_metadata
     @template = set_template(File.join(@path, 'template.json'))
+  end
+
+  def client(config)
+    MyClient.new(config)
   end
 
   def logger
