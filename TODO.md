@@ -6,6 +6,8 @@ WIP:
 
 Pending: 
 
+- add option to validate metadata
+- retire "hasParameters" directive
 - refactor
 - create gem
 - list pending change sets (WIP)
