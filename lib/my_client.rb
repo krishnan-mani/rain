@@ -12,8 +12,8 @@ class MyClient
     stack.exists?
   end
 
-  def create_stack(options)
-    @client.create_stack(options)
+  def method_missing(name, *args)
+    @client.send(name, *args)
   end
 
 end
