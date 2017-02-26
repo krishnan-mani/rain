@@ -53,13 +53,12 @@ module Stack
   end
 
   def recreate_action!
-    client = Aws::CloudFormation::Client.new(region: region)
     if exists?
       delete!
-      client.wait_until(:stack_delete_complete, stack_name: stack_name)
+      client(region: region).wait_until(:stack_delete_complete, stack_name: stack_name)
     end
     create!
-    client.wait_until(:stack_create_complete, stack_name: stack_name)
+    client(region: region).wait_until(:stack_create_complete, stack_name: stack_name)
   end
 
   def create_action!
@@ -67,19 +66,17 @@ module Stack
       create_change_set
     else
       create!
-      client = Aws::CloudFormation::Client.new(region: region)
-      client.wait_until(:stack_create_complete, stack_name: stack_name)
+      client(region: region).wait_until(:stack_create_complete, stack_name: stack_name)
     end
   end
 
   def update_action!
-    client = Aws::CloudFormation::Client.new(region: region)
     if exists?
       update!
-      client.wait_until(:stack_update_complete, stack_name: stack_name)
+      client(region: region).wait_until(:stack_update_complete, stack_name: stack_name)
     else
       create!
-      client.wait_until(:stack_create_complete, stack_name: stack_name)
+      client(region: region).wait_until(:stack_create_complete, stack_name: stack_name)
     end
   end
 
@@ -89,12 +86,12 @@ module Stack
 
   def delete!
     logger.info "Deleting stack #{stack_name}"
-    Aws::CloudFormation::Client.new(region: region).delete_stack(stack_name: stack_name)
+    client(region: region).delete_stack(stack_name: stack_name)
   end
 
   def list_change_sets
     logger.info "Retrieving change sets for #{stack_name}"
-    Aws::CloudFormation::Client.new(region: region).list_change_sets(stack_name: stack_name).summaries
+    client(region: region).list_change_sets(stack_name: stack_name).summaries
   end
 
   def update!
@@ -104,8 +101,7 @@ module Stack
     options.merge!("capabilities": capabilities)
 
     logger.info "Updating stack #{stack_name}"
-    cf = Aws::CloudFormation::Client.new(region: region)
-    cf.update_stack(options)
+    client(region: region).update_stack(options)
   end
 
   def change_set_name
@@ -122,8 +118,7 @@ module Stack
     options.merge!(change_set_name: _change_set_name)
 
     logger.info "Creating change set #{_change_set_name} against stack #{stack_name}"
-    cf = Aws::CloudFormation::Client.new(region: region)
-    cf.create_change_set(options)
+    client(region: region).create_change_set(options)
   end
 
   def create!
@@ -135,7 +130,6 @@ module Stack
     options.merge!(on_failure: on_failure) if on_failure
 
     logger.info "Creating stack #{stack_name}"
-    # cf = Aws::CloudFormation::Client.new(region: region)
     client(region: region).create_stack(options)
   end
 
@@ -168,8 +162,7 @@ module Stack
   end
 
   def describe_parameters
-    client = Aws::CloudFormation::Client.new(region: region)
-    response = client.validate_template(get_template_element)
+    response = client(region: region).validate_template(get_template_element)
     response.parameters
   end
 
