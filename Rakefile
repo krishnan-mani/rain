@@ -1,4 +1,4 @@
-require 'ci/reporter/rake/rspec'
+# require 'ci/reporter/rake/rspec'
 
 require_relative 'lib/independent_stack'
 require_relative 'lib/context_stack'
@@ -47,10 +47,9 @@ end
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)
-
 rescue LoadError
   # no rspec available
 end
 
 desc "Run spec tests"
-task :spec => 'ci:setup:rspec'
+task :spec
