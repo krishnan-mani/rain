@@ -174,9 +174,6 @@ module Stack
   end
 
   def capabilities
-    # client = Aws::CloudFormation::Client.new(region: region)
-    # response = client.validate_template(get_template_element)
-    # response.capabilities
     metadata["capabilities"]
   end
 
