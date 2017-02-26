@@ -1,5 +1,8 @@
 {
   "name": "test-stack-capability-NAMED-IAM",
   "region": "ap-south-1",
-  "action": "create"
+  "action": "create",
+  "capabilities": [
+    "CAPABILITY_NAMED_IAM"
+  ]
 }

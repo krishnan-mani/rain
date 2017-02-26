@@ -3,6 +3,6 @@
   "region": "ap-south-1",
   "action": "create",
   "capabilities": [
-    "IAM"
+    "CAPABILITY_IAM"
   ]
 }
