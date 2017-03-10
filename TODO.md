@@ -1,13 +1,15 @@
 
 WIP:
 
-- supply only specified capabilities
-- factor out AWS operations into a provider, use mocking
-
 Pending: 
 
-- add option to validate metadata
+- support .yml format
 - retire "hasParameters" directive
+- supply a file to log to
+- remove obsolete tasks from Rakefile
+- add option to validate metadata
+- "region" is required at top-level despite defining contexts/environments
+- no support for :change_set_create_complete waiter in SDK
 - refactor
 - create gem
 - list pending change sets (WIP)
@@ -19,7 +21,6 @@ Pending:
 - configure notifications
 - Handle stack updates error: Aws::CloudFormation::Errors::ValidationError: No updates are to be performed
 - add :client_token for idempotence (use commit hash?)
-- accept either JSON or YAML formats
 
 Testing:
 

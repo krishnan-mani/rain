@@ -3,7 +3,7 @@ require 'aws-sdk'
 class MyClient
 
   def initialize(config)
-    @client = Aws::CloudFormation::Client.new(region: config[:region])
+    @client = Aws::CloudFormation::Client.new(config)
   end
 
   def exists?(stack_name)
