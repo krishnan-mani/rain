@@ -6,4 +6,7 @@ module RainErrors
   class StackActionNotSupportedError < StandardError
   end
 
+  class NoUpdatesToStackError < StandardError
+  end
+
 end
