@@ -22,4 +22,10 @@ RSpec.describe "updating stacks" do
     expect { stack.update! }.to raise_error(RainErrors::NoUpdatesToStackError, "No updates are to be performed.")
   end
 
+  it 'supresses an error when an update is attempted without any changes' do
+    stack.process!
+    client.wait_until(:stack_create_complete, stack_name: stack_name)
+    expect { stack.process! }.not_to raise_error
+  end
+
 end

@@ -72,8 +72,12 @@ module Stack
 
   def update_action!
     if exists?
-      update!
-      client(region: region).wait_until(:stack_update_complete, stack_name: stack_name)
+      begin
+        update!
+        client(region: region).wait_until(:stack_update_complete, stack_name: stack_name)
+      rescue RainErrors::NoUpdatesToStackError
+        logger.warn "No updates to stack"
+      end
     else
       create!
       client(region: region).wait_until(:stack_create_complete, stack_name: stack_name)
@@ -105,12 +109,12 @@ module Stack
     begin
       client(region: region).update_stack(options)
     rescue Aws::CloudFormation::Errors::ValidationError => ex
-      if ex.message =~ /No updates are to be performed/i
-        raise RainErrors::NoUpdatesToStackError, ex.message
-      else
-        raise ex
-      end
+      raise_custom_error(ex)
     end
+  end
+
+  def raise_custom_error(ex)
+    (ex.message =~ /No updates are to be performed/i) ? raise(RainErrors::NoUpdatesToStackError, ex.message) : raise(ex)
   end
 
   def change_set_name
