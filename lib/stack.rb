@@ -101,7 +101,16 @@ module Stack
     options.merge!("capabilities": capabilities)
 
     logger.info "Updating stack #{stack_name}"
-    client(region: region).update_stack(options)
+
+    begin
+      client(region: region).update_stack(options)
+    rescue Aws::CloudFormation::Errors::ValidationError => ex
+      if ex.message =~ /No updates are to be performed/i
+        raise RainErrors::NoUpdatesToStackError, ex.message
+      else
+        raise ex
+      end
+    end
   end
 
   def change_set_name
