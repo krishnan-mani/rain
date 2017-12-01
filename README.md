@@ -1,3 +1,11 @@
+
+### Watch me!
+
+- Getting started
+
+![Getting started](/doc/getting-started-asciicast.gif)
+
+
 ### Features
 
 - Process any number of CloudFormation templates to create and maintain multiple CloudFormation stacks across AWS regions (templates are listed in a manifest)
@@ -16,12 +24,6 @@
   - discover and supply capabilities required for a stack in CloudFormation, etc.
   - inspect a template and generate a "stub" file for Parameters to be populated with the values (includes the default values for any Parameters for reference)
   - specify the ```--on-failure``` action when creating a stack
-
-### Watch me!
-
-- Getting started
-
-![Getting started](/doc/getting-started-asciicast.gif)
 
 ### Coming soon...
 
