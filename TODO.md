@@ -1,8 +1,10 @@
 
 WIP:
+=====
+(none)
 
-Pending: 
-
+Pending:
+=====
 - support .yml format
 - retire "hasParameters" directive
 - supply a file to log to
@@ -23,6 +25,6 @@ Pending:
 - add :client_token for idempotence (use commit hash?)
 
 Testing:
-
+=====
 - Do not assign a region within the test
 - factor out AWS operations into a provider, use mocking
