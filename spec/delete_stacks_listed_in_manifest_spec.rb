@@ -1,4 +1,4 @@
-require 'aws-sdk'
+require 'aws-sdk-cloudformation'
 
 require_relative '../lib/rain_dance'
 
