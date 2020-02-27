@@ -1,3 +1,5 @@
+require 'aws-sdk-s3'
+
 require_relative '../lib/independent_stack'
 
 RSpec.describe 'creating stacks' do

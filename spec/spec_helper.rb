@@ -113,7 +113,7 @@ end
 require 'securerandom'
 
 def get_artifacts_bucket
-  artifacts_bucket = "artifacts-workshop"
+  artifacts_bucket = "rain-artifacts"
   "#{artifacts_bucket}-#{SecureRandom.random_number(10)}"
 end
 
